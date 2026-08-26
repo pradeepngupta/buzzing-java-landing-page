@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${site.seo.title}">Buzzing Java | Why Java Still Powers Trusted Systems</title>
+    <meta name="description" th:content="${site.seo.description}">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" th:href="${site.seo.canonicalUrl}">
+    <meta property="og:type" content="book">
+    <meta property="og:title" th:content="${site.seo.title}">
+    <meta property="og:description" th:content="${site.seo.description}">
+    <meta property="og:image" th:content="${site.seo.ogImage}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" th:content="${site.seo.title}">
+    <meta name="twitter:description" th:content="${site.seo.description}">
+    <link rel="stylesheet" href="css/site.css">
+    <script type="application/ld+json" th:utext="${faqJson}"></script>
+</head>
+<body>
+<header class="masthead"><a class="wordmark" href="#top" aria-label="Buzzing Java home"><span>BUZZING</span> JAVA</a><span class="edition">A book about durable software</span></header>
+<main id="top">
+    <section class="hero wrap" aria-labelledby="hero-title">
+        <div class="hero-copy">
+            <p class="eyebrow">Coming <span th:text="${site.book.launchDate}">December 7, 2026</span> <i aria-hidden="true"></i></p>
+            <h1 id="hero-title">The future of trusted software may look a lot like its past.</h1>
+            <p class="hero-lede">Why does Java still hold the line when systems need to survive? <strong th:text="${site.book.title}">Buzzing Java</strong> follows the engineering habits, trade-offs, and quiet advantages behind its remarkable staying power in the age of AI.</p>
+            <a class="button button-primary" th:href="${site.cta.link}" th:text="${site.cta.label}">Join the Waitlist</a>
+            <div class="countdown" data-launch-date="2026-12-07T00:00:00+05:30" th:attr="data-launch-date=${site.book.launchDateIso}" aria-live="polite">
+                <p class="countdown-label">Until launch</p>
+                <div class="countdown-grid" aria-label="Countdown to book launch">
+                    <div><strong data-unit="days">--</strong><span>Days</span></div><div><strong data-unit="hours">--</strong><span>Hours</span></div><div><strong data-unit="minutes">--</strong><span>Minutes</span></div><div><strong data-unit="seconds">--</strong><span>Seconds</span></div>
+                </div><p class="launch-state" data-launch-state hidden>Buzzing Java is here.</p>
+            </div>
+        </div>
+        <div class="book-stage" aria-label="Buzzing Java book cover placeholder" role="img">
+            <div class="book-cover"><span class="cover-kicker">A field note on</span><span class="cover-title">Buzzing<br><em>Java</em></span><span class="cover-rule"></span><span class="cover-subtitle" th:text="${site.book.subtitle}">The hidden reason Java remains the foundation of trusted systems in the age of AI</span><span class="cover-author" th:text="${site.book.author}">Pradeep Gupta</span></div><span class="cover-shadow" aria-hidden="true"></span>
+        </div>
+    </section>
+
+    <section class="manifesto band wrap" aria-labelledby="about-title"><div class="section-index">01 / THE THESIS</div><div><h2 id="about-title">A language is only as strong as the trust it has earned.</h2><p class="quote" th:text="${site.book.description}">Buzzing Java explores why Java remains central to trusted enterprise systems, and what its longevity reveals about building reliable software in the age of AI.</p></div></section>
+
+    <section class="teasers wrap" aria-labelledby="teasers-title"><div class="section-heading"><div class="section-index">02 / FOUR CLUES</div><h2 id="teasers-title">The hidden reasons are hiding in plain sight.</h2></div><div class="teaser-grid"><article class="teaser" th:each="teaser : ${site.teasers}"><span class="teaser-number" th:text="${teaser.number}">01</span><h3 th:text="${teaser.title}">Longevity is a signal</h3><p th:text="${teaser.description}">Two decades of staying power is rarely an accident.</p></article></div></section>
+
+    <section class="credibility" aria-label="Author credibility"><div class="wrap credibility-grid"><div class="credibility-intro"><span class="section-index">03 / CREDENTIALS</span><p>Written from inside the systems where reliability is not a slogan.</p></div><div class="credential" th:each="item : ${site.credibility}"><strong th:text="${item.value}">20+</strong><span th:text="${item.label}">Years engineering</span></div></div></section>
+
+    <section class="waitlist-section wrap" id="waitlist" aria-labelledby="waitlist-title"><div class="waitlist-intro"><div class="section-index">04 / COME ALONG</div><h2 id="waitlist-title">Be there when the story starts buzzing.</h2><p>Get the launch date and price first, then choose how much of the conversation you want to join.</p><p class="counter" th:if="${showCounter}" th:text="${waitlistCount} + ' Java builders are already waiting.'">247 Java builders are already waiting.</p></div><form id="waitlist-form" novalidate><div class="form-row"><div class="field"><label for="name">Name</label><input id="name" name="name" autocomplete="name" required><small class="error" data-error-for="name"></small></div><div class="field"><label for="email">Email</label><input id="email" name="email" type="email" autocomplete="email" required><small class="error" data-error-for="email"></small></div></div><fieldset><legend>Launch party interest <span>Choose one</span></legend><div class="choice-grid"><label th:each="option : ${site.waitlist.partyOptions}"><input type="radio" name="party" th:value="${option}" required><span th:text="${option}">Online</span></label></div><small class="error" data-error-for="party"></small></fieldset><details class="expectations"><summary>What are you hoping to find inside? <span>Optional</span></summary><div class="pill-grid"><label th:each="expectation : ${site.waitlist.expectations}"><input type="checkbox" name="expectations" th:value="${expectation}" data-expectation><span th:text="${expectation}">Java's relevance in the age of AI</span></label></div><input class="other-input" id="other-expectation" name="otherExpectation" placeholder="Tell us what you have in mind" hidden></details><button class="button button-primary form-submit" type="submit"><span th:text="${site.cta.label}">Join the Waitlist</span><span aria-hidden="true">&#8594;</span></button><p class="form-note">Three quick details and one tap. That is it.</p><div class="form-success" role="status" aria-live="polite" hidden><strong>You are on the list.</strong><span>We will keep you posted as launch gets closer.</span></div></form></section>
+
+    <section class="freebie wrap" th:if="${site.freebie.enabled}" aria-labelledby="freebie-title"><div class="section-index">EARLY BIRD</div><h2 id="freebie-title" th:text="${site.freebie.quantity + ' get ' + site.freebie.title}">First X get the freebie</h2><p th:text="${site.freebie.description}">A configured launch bonus.</p></section>
+
+    <section class="perks wrap" aria-labelledby="perks-title"><div class="section-heading"><div class="section-index">05 / YOUR PERKS</div><h2 id="perks-title">A good reason to get in early.</h2></div><div class="perk-list"><article th:each="perk, stat : ${site.perks}"><span class="perk-mark" th:text="${stat.count < 10 ? '0' + stat.count : stat.count}">01</span><div><h3 th:text="${perk.title}">Launch date + price</h3><p th:text="${perk.description}">Hear first, before the public announcement.</p></div></article></div></section>
+
+    <section class="faq-section wrap" aria-labelledby="faq-title"><div class="section-heading"><div class="section-index">06 / THE SHORT ANSWERS</div><h2 id="faq-title">Questions worth asking.</h2></div><div class="faq-list"><details th:each="item : ${site.faq}"><summary th:text="${item.question}">What is Buzzing Java about?</summary><p th:text="${item.answer}">Buzzing Java explains why Java remains important.</p></details></div></section>
+</main>
+<footer class="footer wrap"><span class="wordmark"><span>BUZZING</span> JAVA</span><span>Launching <span th:text="${site.book.launchDate}">December 7, 2026</span></span></footer>
+<a class="sticky-cta button button-primary" th:href="${site.cta.link}" th:text="${site.cta.label}">Join the Waitlist</a>
+<script src="js/site.js" defer></script>
+</body>
+</html>

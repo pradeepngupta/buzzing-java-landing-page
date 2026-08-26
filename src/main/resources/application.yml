@@ -1,0 +1,101 @@
+spring:
+  application:
+    name: buzzing-java-landing-page
+  thymeleaf:
+    cache: false
+
+buzzing-java:
+  book:
+    title: "Buzzing Java"
+    subtitle: "The Hidden Reason Java Remains the Foundation of Trusted Systems in the Age of AI"
+    author: "Pradeep Gupta"
+    launch-date: "December 7, 2026"
+    launch-date-iso: "2026-12-07T00:00:00+05:30"
+    description: "Buzzing Java explores why Java remains central to trusted enterprise systems, and what its longevity reveals about building reliable software in the age of AI."
+    genre: "Technology & Engineering"
+    language: "English"
+  cta:
+    label: "Join the Waitlist"
+    mode: "waitlist"
+    link: "#waitlist"
+  waitlist:
+    counter:
+      enabled: true
+      threshold: 200
+      current-count: 247
+    party-options:
+      - "Online"
+      - "Offline"
+      - "Not interested"
+    expectations:
+      - "Java's relevance in the age of AI"
+      - "Java's longevity secrets"
+      - "Practical patterns for real-world systems"
+      - "Career / interview prep"
+      - "System design depth"
+      - "Just curious / supporting you"
+      - "Other"
+  freebie:
+    enabled: false
+    quantity: 100
+    title: ""
+    description: ""
+  credibility:
+    - value: "20+"
+      label: "Years engineering"
+    - value: "300+"
+      label: "Java community"
+    - value: "JPMORGAN"
+      label: "Enterprise engineering"
+    - value: "CERTIFIED"
+      label: "Relevant credentials"
+  teasers:
+    - number: "01"
+      title: "Longevity is a signal"
+      description: "Two decades of staying power is rarely an accident. The more interesting question is what Java kept getting right."
+    - number: "02"
+      title: "Trust compounds"
+      description: "In systems that move money and make decisions, familiarity is not complacency. It is an engineering advantage with a price."
+    - number: "03"
+      title: "The real world wins"
+      description: "Production systems do not reward fashionable demos. They reward software that keeps its promises under pressure."
+    - number: "04"
+      title: "AI changes the question"
+      description: "AI can generate code quickly. Buzzing Java asks what still makes generated code worthy of trust."
+  perks:
+    - title: "Launch date + price"
+      description: "Hear first, before the public announcement."
+    - title: "Launch party invite"
+      description: "Join online or offline, on your terms."
+    - title: "Book preview"
+      description: "Get an early look at the ideas inside."
+    - title: "Future extras"
+      description: "Be first in line for thoughtful bonuses."
+  seo:
+    title: "Buzzing Java | Why Java Still Powers Trusted Systems"
+    description: "Discover why Java remains the foundation of trusted enterprise systems in the age of AI. Join the Buzzing Java book launch waitlist."
+    canonical-url: "https://example.com/buzzing-java/"
+    og-image: "/images/og-image.svg"
+  faq:
+    - question: "What is Buzzing Java about?"
+      answer: "Buzzing Java explains why Java remains important in trusted enterprise systems and what its longevity teaches us about real-world engineering in the AI era."
+    - question: "Who is this book for?"
+      answer: "It is for Java builders, technical leaders, architects, interviewers, and curious engineers who want to understand durable systems."
+    - question: "Is this an introductory Java book?"
+      answer: "No. It is a perspective-driven book about engineering judgment, system trust, and Java's role in production, not a syntax tutorial."
+    - question: "Why does Java still matter in the age of AI?"
+      answer: "AI accelerates code creation, but trusted systems still need reliability, maintainability, and operational discipline. Java has decades of evidence in those areas."
+    - question: "When will Buzzing Java launch?"
+      answer: "The planned launch date is December 7, 2026. Join the waitlist for updates."
+    - question: "How can I join the waitlist?"
+      answer: "Share your name, email, and launch-party preference in the short form on this page."
+    - question: "What do waitlist members receive?"
+      answer: "Waitlist members hear about the launch date and price first, and may receive a launch-party invitation and early book preview."
+  launch-event:
+    enabled: true
+    name: "Buzzing Java Launch"
+    start-date: "2026-12-07T19:00:00+05:30"
+    end-date: ""
+    event-status: "EventScheduled"
+    event-attendance-mode: "MixedEventAttendanceMode"
+    location: ""
