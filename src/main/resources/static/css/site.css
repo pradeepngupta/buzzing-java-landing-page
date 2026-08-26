@@ -3,5 +3,6 @@
 @media (min-width: 700px) { .hero { grid-template-columns: 1.3fr .7fr; align-items: center; } .book-stage { min-height: 560px; } .band { grid-template-columns: 1fr 2fr; } .teaser-grid { grid-template-columns: repeat(2, 1fr); } .credibility-grid { grid-template-columns: 2fr repeat(4, 1fr); align-items: start; } .credibility-intro { grid-column: auto; } .waitlist-section { grid-template-columns: .8fr 1.2fr; } .form-row { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 699px) { body { padding-bottom: 4.5rem; } .edition { display: none; } .sticky-cta { position: fixed; z-index: 10; right: 1rem; bottom: 1rem; left: 1rem; display: flex; box-shadow: 0 8px 20px rgba(16,37,31,.2); } }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; } }
+.event-location { margin: 1rem 0 0; color: var(--muted); font-size: .8rem; }
 .form-success[hidden] { display: none; }
 .form-success.form-error { color: var(--error); border-color: var(--error); }

@@ -98,4 +98,4 @@ buzzing-java:
     end-date: ""
     event-status: "EventScheduled"
     event-attendance-mode: "MixedEventAttendanceMode"
-    location: ""
+    location: "Bengaluru, India"

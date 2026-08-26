@@ -39,7 +39,9 @@ public final class PageModel {
         event.put("eventAttendanceMode", "https://schema.org/" + site.launchEvent().eventAttendanceMode());
         event.put("description", site.book().description());
         if (!site.launchEvent().endDate().isBlank()) event.put("endDate", site.launchEvent().endDate());
-        if (!site.launchEvent().location().isBlank()) event.put("location", site.launchEvent().location());
+        if (!site.launchEvent().location().isBlank()) {
+            event.put("location", Map.of("@type", "Place", "name", site.launchEvent().location()));
+        }
         return writeJson(event);
     }
 

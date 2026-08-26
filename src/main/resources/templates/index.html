@@ -33,6 +33,7 @@
                 <div class="countdown-grid" aria-label="Countdown to book launch">
                     <div><strong data-unit="days">--</strong><span>Days</span></div><div><strong data-unit="hours">--</strong><span>Hours</span></div><div><strong data-unit="minutes">--</strong><span>Minutes</span></div><div><strong data-unit="seconds">--</strong><span>Seconds</span></div>
                 </div><p class="launch-state" data-launch-state hidden>Buzzing Java is here.</p>
+                <p class="event-location" th:if="${site.launchEvent.enabled and !site.launchEvent.location.isBlank()}">Launch event: <span th:text="${site.launchEvent.location}">Bengaluru, India</span></p>
             </div>
         </div>
         <div class="book-stage" aria-label="Buzzing Java book cover placeholder" role="img">
