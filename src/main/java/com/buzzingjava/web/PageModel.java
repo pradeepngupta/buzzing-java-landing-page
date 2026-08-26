@@ -15,30 +15,43 @@ public final class PageModel {
         model.addAttribute("site", site);
         model.addAttribute("showCounter", showCounter);
         model.addAttribute("waitlistCount", site.waitlist().counter().currentCount());
-        model.addAttribute("faqJson", jsonLd(site));
+        model.addAttribute("bookJson", bookJson(site));
+        model.addAttribute("eventJson", eventJson(site));
+        model.addAttribute("faqJson", faqJson(site));
     }
 
-    private static String jsonLd(SiteProperties site) {
-        var graph = new java.util.ArrayList<Map<String, Object>>();
-        graph.add(Map.of("@type", "Book", "name", site.book().title(),
+    private static String bookJson(SiteProperties site) {
+        return writeJson(Map.of("@context", "https://schema.org", "@type", "Book",
+                "name", site.book().title(), "alternateName", site.book().subtitle(),
+                "description", site.book().description(), "datePublished", site.book().launchDateIso(),
                 "author", Map.of("@type", "Person", "name", site.book().author()),
-                "description", site.book().description(), "datePublished", "2026-12-07",
-                "genre", site.book().genre(), "inLanguage", site.book().language()));
-        if (site.launchEvent().enabled()) {
-            var event = new java.util.HashMap<String, Object>();
-            event.put("@type", "Event");
-            event.put("name", site.launchEvent().name());
-            event.put("startDate", site.launchEvent().startDate());
-            event.put("eventStatus", "https://schema.org/" + site.launchEvent().eventStatus());
-            event.put("eventAttendanceMode", "https://schema.org/" + site.launchEvent().eventAttendanceMode());
-            if (!site.launchEvent().endDate().isBlank()) event.put("endDate", site.launchEvent().endDate());
-            graph.add(event);
-        }
-        graph.add(Map.of("@type", "FAQPage", "mainEntity", site.faq().stream().map(item -> Map.of(
+                "inLanguage", site.book().language(), "genre", site.book().genre()));
+    }
+
+    private static String eventJson(SiteProperties site) {
+        if (!site.launchEvent().enabled()) return "";
+        var event = new java.util.HashMap<String, Object>();
+        event.put("@context", "https://schema.org");
+        event.put("@type", "Event");
+        event.put("name", site.launchEvent().name());
+        event.put("startDate", site.launchEvent().startDate());
+        event.put("eventStatus", "https://schema.org/" + site.launchEvent().eventStatus());
+        event.put("eventAttendanceMode", "https://schema.org/" + site.launchEvent().eventAttendanceMode());
+        event.put("description", site.book().description());
+        if (!site.launchEvent().endDate().isBlank()) event.put("endDate", site.launchEvent().endDate());
+        if (!site.launchEvent().location().isBlank()) event.put("location", site.launchEvent().location());
+        return writeJson(event);
+    }
+
+    private static String faqJson(SiteProperties site) {
+        return writeJson(Map.of("@context", "https://schema.org", "@type", "FAQPage", "mainEntity", site.faq().stream().map(item -> Map.of(
                 "@type", "Question", "name", item.question(),
                 "acceptedAnswer", Map.of("@type", "Answer", "text", item.answer()))).toList()));
+    }
+
+    private static String writeJson(Object value) {
         try {
-            return new ObjectMapper().writeValueAsString(Map.of("@context", "https://schema.org", "@graph", graph));
+            return new ObjectMapper().writeValueAsString(value);
         } catch (JsonProcessingException exception) {
             throw new IllegalStateException("Unable to create structured data", exception);
         }
