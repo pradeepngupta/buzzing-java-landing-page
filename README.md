@@ -41,4 +41,11 @@ All page content is in `src/main/resources/application.yml`, bound to the typed 
 
 The current flow is `Spring Boot + Thymeleaf -> responsive landing page -> static dist/ export`. The waitlist currently validates in the browser and simulates success. `submitWaitlist()` contains the future integration point for `POST /api/waitlist`.
 
-Not implemented yet: database, PostgreSQL, JPA, migrations, n8n, email automation, real API submission, persistence, deployment, CloudFront, Render, infrastructure, CI/CD, DNS, and production secrets.
+The waitlist API is now available in-memory:
+
+- `GET /api/waitlist/count` returns `{ "count": 252, "visible": true }`.
+- `POST /api/waitlist` accepts the form fields as JSON and returns the incremented count. The server randomly adds 1, 3, 5, or 10. The frontend calls both endpoints with `fetch`.
+
+This is intentionally not persistent; restarting the application resets the count from configuration.
+
+Not implemented yet: database, PostgreSQL, JPA, migrations, n8n, email automation, persistence, deployment, CloudFront, Render, infrastructure, CI/CD, DNS, and production secrets.

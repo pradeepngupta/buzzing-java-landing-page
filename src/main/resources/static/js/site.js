@@ -1,4 +1,6 @@
 (() => {
+  const fallbackWaitlistCount = 247;
+  const cachedWaitlistCountKey = 'buzzing-java-waitlist-count';
   const countdown = document.querySelector('.countdown');
   if (countdown) {
     const target = new Date(countdown.dataset.launchDate).getTime();
@@ -12,6 +14,17 @@
     update();
     const timer = setInterval(update, 1000);
   }
+
+  fetch('/api/waitlist/count')
+    .then((response) => response.ok ? response.json() : Promise.reject(new Error('Unable to load waitlist count')))
+    .then((response) => {
+      cacheWaitlistCount(response.count);
+      updateWaitlistCounter(response);
+    })
+    .catch((error) => {
+      console.error('Waitlist count request failed:', error);
+      updateWaitlistCounter({count: getCachedWaitlistCount(), visible: true});
+    });
 
   document.querySelectorAll('[data-expectation]').forEach((checkbox) => checkbox.addEventListener('change', () => {
     const other = document.querySelector('#other-expectation');
@@ -33,30 +46,59 @@
     if (!form.querySelector('input[name="party"]:checked')) { document.querySelector('[data-error-for="party"]').textContent = 'Please choose one option.'; valid = false; }
     if (!valid) return;
     const submit = form.querySelector('button[type="submit"]');
+    const success = form.querySelector('.form-success');
     submit.disabled = true;
-    form.querySelector('.form-success').hidden = false;
-    await submitWaitlist(new FormData(form));
-    updateWaitlistCounter();
-    form.reset();
-    const other = form.querySelector('#other-expectation');
-    other.hidden = true;
-    other.required = false;
-    submit.disabled = false;
-    form.querySelector('.form-success').hidden = true;
+    success.classList.remove('form-error');
+    success.innerHTML = '<strong>You are on the list.</strong><span>We will keep you posted as launch gets closer.</span>';
+    success.hidden = false;
+    try {
+      const response = await submitWaitlist(new FormData(form));
+      cacheWaitlistCount(response.count);
+      updateWaitlistCounter(response);
+      form.reset();
+      const other = form.querySelector('#other-expectation');
+      other.hidden = true;
+      other.required = false;
+      success.hidden = true;
+    } catch (error) {
+      console.error('Waitlist join request failed:', error);
+      success.classList.add('form-error');
+      success.innerHTML = '<strong>We could not join you to the list.</strong><span>Please try again in a moment.</span>';
+      success.hidden = false;
+    } finally {
+      submit.disabled = false;
+    }
   });
 
-  function updateWaitlistCounter() {
+  function cacheWaitlistCount(count) {
+    try {
+      localStorage.setItem(cachedWaitlistCountKey, String(count));
+    } catch (error) {
+      console.warn('Waitlist count could not be cached:', error);
+    }
+  }
+
+  function getCachedWaitlistCount() {
+    try {
+      const cached = Number(localStorage.getItem(cachedWaitlistCountKey));
+      return Number.isFinite(cached) ? cached : fallbackWaitlistCount;
+    } catch (error) {
+      return fallbackWaitlistCount;
+    }
+  }
+
+  function updateWaitlistCounter(response) {
     const counter = document.querySelector('.counter');
     if (!counter) return;
-    const currentCount = Number(counter.textContent.match(/\d+/)?.[0]);
-    if (!Number.isFinite(currentCount)) return;
-    const increments = [1, 3, 5, 10];
-    const nextCount = currentCount + increments[Math.floor(Math.random() * increments.length)];
-    counter.textContent = `${nextCount} Java builders are already waiting.`;
+    if (!response.visible) {
+      counter.hidden = true;
+      return;
+    }
+    counter.hidden = false;
+    counter.textContent = `${response.count} Java builders are already waiting.`;
   }
 
   async function submitWaitlist(formData) {
-    // TODO: replace this simulation with POST /api/waitlist in the backend phase.
     const submittedData = {};
     for (const [key, value] of formData.entries()) {
       if (key in submittedData) {
@@ -68,7 +110,12 @@
       }
     }
     console.log('Waitlist form data:', submittedData);
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    return formData;
+    const response = await fetch('/api/waitlist', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(submittedData)
+    });
+    if (!response.ok) throw new Error('Unable to join waitlist');
+    return response.json();
   }
 })();

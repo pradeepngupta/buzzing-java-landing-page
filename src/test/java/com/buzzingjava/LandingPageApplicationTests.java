@@ -2,8 +2,10 @@ package com.buzzingjava;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 import com.buzzingjava.config.SiteProperties;
 import org.junit.jupiter.api.Test;
@@ -37,4 +39,26 @@ class LandingPageApplicationTests {
         assertThat(site.faq()).hasSize(7);
         assertThat(site.launchEvent().enabled()).isTrue();
     }
+
+        @Test
+        void waitlistApiReturnsAndIncrementsServerCount() throws Exception {
+        int initialCount = site.waitlist().counter().currentCount();
+        mockMvc.perform(get("/api/waitlist/count"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.count").value(initialCount));
+
+        String request = "{" +
+            "\"name\":\"Test Builder\",\"email\":\"builder@example.com\",\"party\":\"Online\"," +
+            "\"expectations\":[\"Java's longevity secrets\",\"System design depth\"]," +
+            "\"otherExpectation\":\"\"}";
+        mockMvc.perform(post("/api/waitlist")
+                .contentType("application/json")
+                .content(request))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.count").value(org.hamcrest.Matchers.anyOf(
+                org.hamcrest.Matchers.is(initialCount + 1),
+                org.hamcrest.Matchers.is(initialCount + 3),
+                org.hamcrest.Matchers.is(initialCount + 5),
+                org.hamcrest.Matchers.is(initialCount + 10))));
+        }
 }
