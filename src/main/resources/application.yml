@@ -4,6 +4,11 @@ spring:
   thymeleaf:
     cache: false
 
+google:
+  sheets:
+    spreadsheet-id: ${GOOGLE_SHEET_ID:}
+    range: ${GOOGLE_SHEET_RANGE:Sheet1!A:E}
+
 buzzing-java:
   book:
     title: "Buzzing Java"

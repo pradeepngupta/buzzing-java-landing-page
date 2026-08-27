@@ -1,6 +1,8 @@
 package com.buzzingjava.waitlist;
 
 import com.buzzingjava.config.SiteProperties;
+import java.util.Optional;
+import java.util.regex.Pattern;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.springframework.stereotype.Service;
@@ -8,13 +10,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class WaitlistService {
     private static final int[] INCREMENTS = {1, 3, 5, 10};
+    private static final Pattern EMAIL_PATTERN = Pattern.compile("^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$");
 
     private final SiteProperties.Waitlist.Counter configuration;
     private final AtomicInteger count;
+    private final Optional<GoogleSheetsService> googleSheetsService;
 
-    public WaitlistService(SiteProperties site) {
+    public WaitlistService(SiteProperties site, Optional<GoogleSheetsService> googleSheetsService) {
         configuration = site.waitlist().counter();
         count = new AtomicInteger(configuration.currentCount());
+        this.googleSheetsService = googleSheetsService;
     }
 
     public CountResponse currentCount() {
@@ -23,6 +28,14 @@ public class WaitlistService {
     }
 
     public CountResponse join(WaitlistRequest request) {
+        validate(request);
+        WaitlistSheetRow sheetRow = new WaitlistSheetRow(
+            request.name().trim(),
+            request.email().trim(),
+            request.party().trim(),
+            String.join(", ", request.expectations()),
+            request.otherExpectation() == null ? "" : request.otherExpectation().trim());
+        googleSheetsService.ifPresent(service -> service.append(sheetRow));
         int increment = INCREMENTS[ThreadLocalRandom.current().nextInt(INCREMENTS.length)];
         count.addAndGet(increment);
         try {
@@ -31,6 +44,24 @@ public class WaitlistService {
             Thread.currentThread().interrupt();
         }
         return currentCount();
+    }
+
+    private void validate(WaitlistRequest request) {
+        if (request == null) {
+            throw new IllegalArgumentException("Waitlist request is required.");
+        }
+        if (request.name() == null || request.name().isBlank()) {
+            throw new IllegalArgumentException("Name is required.");
+        }
+        if (request.email() == null || !EMAIL_PATTERN.matcher(request.email().trim()).matches()) {
+            throw new IllegalArgumentException("A valid email address is required.");
+        }
+        if (request.party() == null || request.party().isBlank()) {
+            throw new IllegalArgumentException("Party preference is required.");
+        }
+        if (request.expectations() == null || request.expectations().isEmpty()) {
+            throw new IllegalArgumentException("At least one expectation is required.");
+        }
     }
 
     public record CountResponse(int count, boolean visible) {}
