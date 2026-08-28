@@ -3,7 +3,7 @@ package com.buzzingjava.config;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.HttpRequestInitializer;
-import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.services.sheets.v4.Sheets;
 import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
@@ -46,7 +46,7 @@ public class GoogleSheetsConfig {
         HttpRequestInitializer requestInitializer = new com.google.auth.http.HttpCredentialsAdapter(credentials);
         return new Sheets.Builder(
                         GoogleNetHttpTransport.newTrustedTransport(),
-                        JacksonFactory.getDefaultInstance(),
+                        GsonFactory.getDefaultInstance(),
                         requestInitializer)
                 .setApplicationName("Buzzing Java")
                 .build();

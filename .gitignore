@@ -3,5 +3,6 @@ dist/
 .idea/
 *.iml
 .vscode/
+.env.local
 .DS_Store
 src/main/resources/gsa/buzzing-java-waitlist-ed67e3691b13.json
