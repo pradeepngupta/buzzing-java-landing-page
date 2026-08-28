@@ -4,10 +4,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
+import org.springframework.test.context.ActiveProfiles;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest(properties = "spring.profiles.active=export")
+@ActiveProfiles({"test", "export"})
 class StaticSiteExporterTests {
     @Test
     void exportsStandaloneSite() throws Exception {

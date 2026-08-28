@@ -12,8 +12,10 @@ import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 @Configuration
+@Profile("!test & !export")
 public class GoogleSheetsConfig {
     private static final String SHEETS_SCOPE = "https://www.googleapis.com/auth/spreadsheets";
 

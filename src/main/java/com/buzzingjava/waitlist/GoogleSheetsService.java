@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 @Service
-@Profile("!test")
+@Profile("!test & !export")
 public class GoogleSheetsService {
     private final Sheets sheets;
     private final String spreadsheetId;

@@ -27,6 +27,18 @@ java -jar target/buzzing-java-landing-page-0.1.0-SNAPSHOT.jar --spring.profiles.
 
 The standalone site is written to `dist/` with `index.html`, `css/`, `js/`, `images/`, and `fonts/`. It can be opened from a static host without Spring Boot. The exporter renders the same Thymeleaf template and copies classpath assets.
 
+## CI/CD
+
+GitHub Actions runs `mvn verify` for pushes and pull requests. Pushes to `main` or `master` also export the standalone site and deploy `dist/` to GitHub Pages, then trigger a Spring Boot deployment on Render.
+
+To enable the deployments:
+
+1. Set the repository's **Pages** source to **GitHub Actions**.
+2. Create a Render Web Service for this project with build command `mvn --batch-mode clean package -DskipTests` and start command `java -jar target/buzzing-java-landing-page-0.1.0-SNAPSHOT.jar`.
+3. Create a Render deploy hook and save its URL as the GitHub repository secret `RENDER_DEPLOY_HOOK_URL`.
+
+Render supplies the `PORT` environment variable; the application uses it automatically and falls back to port `8080` locally. Pull requests run CI only and do not deploy.
+
 ## Configuration
 
 All page content is in `src/main/resources/application.yml`, bound to the typed `SiteProperties` model. The page does not scatter book details through templates.

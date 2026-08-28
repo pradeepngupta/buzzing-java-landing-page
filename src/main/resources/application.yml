@@ -1,6 +1,8 @@
 spring:
   application:
     name: buzzing-java-landing-page
+  server:
+    port: ${PORT:8080}
   thymeleaf:
     cache: false
 
