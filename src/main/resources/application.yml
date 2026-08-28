@@ -8,6 +8,7 @@ google:
   sheets:
     spreadsheet-id: ${GOOGLE_SHEET_ID:}
     range: ${GOOGLE_SHEET_RANGE:Sheet1!A:E}
+    minimum-display-count: ${GOOGLE_MIN_WAITLIST_COUNT:50}
 
 buzzing-java:
   book:

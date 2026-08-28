@@ -42,4 +42,20 @@ public class GoogleSheetsService {
             throw new IllegalStateException("Unable to append the waitlist entry to Google Sheets.", exception);
         }
     }
+
+    public int getRowCount() {
+        if (spreadsheetId.isBlank()) {
+            throw new IllegalStateException(
+                    "Google Sheets is not configured. Set GOOGLE_SHEET_ID to the target spreadsheet ID.");
+        }
+
+        try {
+            ValueRange response = sheets.spreadsheets().values()
+                    .get(spreadsheetId, range)
+                    .execute();
+            return response.getValues() == null ? 0 : response.getValues().size();
+        } catch (IOException exception) {
+            throw new IllegalStateException("Unable to read the waitlist count from Google Sheets.", exception);
+        }
+    }
 }

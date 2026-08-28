@@ -5,25 +5,38 @@ import java.util.Optional;
 import java.util.regex.Pattern;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicInteger;
+import org.springframework.beans.factory.annotation.Value;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 @Service
 public class WaitlistService {
     private static final int[] INCREMENTS = {1, 3, 5, 10};
     private static final Pattern EMAIL_PATTERN = Pattern.compile("^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$");
+    private static final Logger LOGGER = LoggerFactory.getLogger(WaitlistService.class);
 
     private final SiteProperties.Waitlist.Counter configuration;
     private final AtomicInteger count;
     private final Optional<GoogleSheetsService> googleSheetsService;
 
-    public WaitlistService(SiteProperties site, Optional<GoogleSheetsService> googleSheetsService) {
+    public WaitlistService(
+            SiteProperties site,
+            Optional<GoogleSheetsService> googleSheetsService,
+            @Value("${google.sheets.minimum-display-count:50}") int minimumDisplayCount) {
         configuration = site.waitlist().counter();
-        count = new AtomicInteger(configuration.currentCount());
+        count = new AtomicInteger(minimumDisplayCount);
         this.googleSheetsService = googleSheetsService;
     }
 
     public CountResponse currentCount() {
-        int current = count.get();
+        int actualCount = 0;
+        try {
+            actualCount = googleSheetsService.map(GoogleSheetsService::getRowCount).orElse(0);
+        } catch (RuntimeException exception) {
+            LOGGER.error("Unable to read the waitlist count from Google Sheets; using 0.", exception);
+        }
+        int current = Math.max(actualCount, count.get());
         return new CountResponse(current, configuration.enabled() && current > configuration.threshold());
     }
 

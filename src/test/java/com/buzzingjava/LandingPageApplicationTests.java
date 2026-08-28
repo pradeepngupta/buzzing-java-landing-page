@@ -48,7 +48,7 @@ class LandingPageApplicationTests {
 
         @Test
         void waitlistApiReturnsAndIncrementsServerCount() throws Exception {
-        int initialCount = site.waitlist().counter().currentCount();
+        int initialCount = 50;
         mockMvc.perform(get("/api/waitlist/count"))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.count").value(initialCount));
