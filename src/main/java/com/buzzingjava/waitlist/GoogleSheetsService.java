@@ -34,8 +34,7 @@ public class GoogleSheetsService {
                     "Google Sheets is not configured. Set GOOGLE_SHEET_ID to the target spreadsheet ID.");
         }
 
-        List<Object> values = List.of(
-            row.name(), row.email(), row.party(), row.expectations(), row.otherExpectation());
+        List<Object> values = buildRow(row);
         ValueRange body = new ValueRange().setValues(List.of(values));
         try {
             sheets.spreadsheets().values()
@@ -45,6 +44,28 @@ public class GoogleSheetsService {
         } catch (IOException exception) {
             throw new IllegalStateException("Unable to append the waitlist entry to Google Sheets.", exception);
         }
+    }
+
+    public static List<Object> buildRow(WaitlistSheetRow row) {
+        // WARNING: this list order must always match the Google Sheet column order exactly.
+        // Omitting any element, even when a value is "missing", silently shifts every subsequent column left.
+        List<Object> values = new java.util.ArrayList<>(11);
+        values.add(normalize(row.timestamp()));
+        values.add(normalize(row.name()));
+        values.add(normalize(row.email()));
+        values.add(normalize(row.partyInterest()));
+        values.add(normalize(row.utmSource()));
+        values.add(normalize(row.utmMedium()));
+        values.add(normalize(row.utmCampaign()));
+        values.add(normalize(row.ip()));
+        values.add(normalize(row.country()));
+        values.add(normalize(row.countryCode()));
+        values.add(normalize(row.expectations()));
+        return values;
+    }
+
+    private static String normalize(String value) {
+        return value == null ? "" : value;
     }
 
     public List<String> getEmails() {

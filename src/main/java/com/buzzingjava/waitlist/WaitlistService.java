@@ -1,6 +1,7 @@
 package com.buzzingjava.waitlist;
 
 import com.buzzingjava.config.SiteProperties;
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
@@ -50,13 +51,41 @@ public class WaitlistService {
                 .anyMatch(existing -> existing.equalsIgnoreCase(email))) {
             return new MessageResponse("You are on the list!");
         }
-        List<String> expectations = request.expectations() == null ? List.of() : request.expectations();
+
+        List<String> expectationValues = request.expectations() == null ? List.of() : request.expectations();
+        String otherExpectation = request.otherExpectation() == null ? "" : request.otherExpectation().trim();
+        List<String> combinedExpectations = new java.util.ArrayList<>(expectationValues.size() + (otherExpectation.isEmpty() ? 0 : 1));
+        for (String expectation : expectationValues) {
+            if (expectation != null && !expectation.isBlank()) {
+                combinedExpectations.add(expectation.trim());
+            }
+        }
+        if (!otherExpectation.isEmpty()) {
+            combinedExpectations.add(otherExpectation);
+        }
+
+        String timestamp = request.timestamp() == null || request.timestamp().isBlank()
+                ? Instant.now().toString()
+                : request.timestamp().trim();
+        String utmSource = request.utmSource() == null ? "" : request.utmSource().trim();
+        String utmMedium = request.utmMedium() == null ? "" : request.utmMedium().trim();
+        String utmCampaign = request.utmCampaign() == null ? "" : request.utmCampaign().trim();
+        String ip = request.ip() == null ? "" : request.ip().trim();
+        String country = "";
+        String countryCode = "";
+
         WaitlistSheetRow sheetRow = new WaitlistSheetRow(
-            request.name().trim(),
-            email,
-            request.party().trim(),
-            String.join(", ", expectations),
-            request.otherExpectation() == null ? "" : request.otherExpectation().trim());
+                timestamp,
+                request.name().trim(),
+                email,
+                request.party().trim(),
+                utmSource,
+                utmMedium,
+                utmCampaign,
+                ip,
+                country,
+                countryCode,
+                String.join(", ", combinedExpectations));
         googleSheetsService.ifPresent(service -> service.append(sheetRow));
         countCache = new CountCache(0, 0L);
         return new MessageResponse("You are on the list!");
@@ -97,5 +126,7 @@ public class WaitlistService {
     public record MessageResponse(String message) {}
 
     public record WaitlistRequest(String name, String email, String party,
-                                  java.util.List<String> expectations, String otherExpectation) {}
+                                  java.util.List<String> expectations, String otherExpectation,
+                                  String timestamp, String utmSource, String utmMedium,
+                                  String utmCampaign, String ip) {}
 }

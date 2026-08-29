@@ -9,6 +9,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 import com.buzzingjava.config.SiteProperties;
+import com.buzzingjava.waitlist.GoogleSheetsService;
+import com.buzzingjava.waitlist.WaitlistSheetRow;
+import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -72,6 +75,35 @@ class LandingPageApplicationTests {
                 .content(request))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.message").value("You are on the list!"));
+    }
+
+    @Test
+    void waitlistRowUsesFixedOrderWithTimestampFallback() {
+        List<Object> row = GoogleSheetsService.buildRow(new WaitlistSheetRow(
+                "",
+                "Ada Lovelace",
+                "ada@example.com",
+                "Online",
+                "newsletter",
+                "social",
+                "launch",
+                "127.0.0.1",
+                "",
+                "",
+                "Java longevity, AI tooling"));
+
+        assertThat(row).hasSize(11);
+        assertThat((String)row.get(0)).isNotBlank();
+        assertThat(row.get(1)).isEqualTo("Ada Lovelace");
+        assertThat(row.get(2)).isEqualTo("ada@example.com");
+        assertThat(row.get(3)).isEqualTo("Online");
+        assertThat(row.get(4)).isEqualTo("newsletter");
+        assertThat(row.get(5)).isEqualTo("social");
+        assertThat(row.get(6)).isEqualTo("launch");
+        assertThat(row.get(7)).isEqualTo("127.0.0.1");
+        assertThat(row.get(8)).isEqualTo("");
+        assertThat(row.get(9)).isEqualTo("");
+        assertThat(row.get(10)).isEqualTo("Java longevity, AI tooling");
     }
 
     @Test
