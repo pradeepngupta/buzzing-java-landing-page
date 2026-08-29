@@ -34,10 +34,11 @@ GitHub Actions runs `mvn verify` for pushes and pull requests. Pushes to `main` 
 To enable the deployments:
 
 1. Set the repository's **Pages** source to **GitHub Actions**.
-2. Create a Render Web Service for this project with build command `mvn --batch-mode clean package -DskipTests` and start command `java -jar target/buzzing-java-landing-page-0.1.0-SNAPSHOT.jar`.
-3. Create a Render deploy hook and save its URL as the GitHub repository secret `RENDER_DEPLOY_HOOK_URL`.
+2. Create a Render Web Service for this project using the Docker deployment option.
+3. Connect the repo and use the included `Dockerfile` as the build configuration. Render will expose the app on the `PORT` environment variable automatically.
+4. Create a Render deploy hook and save its URL as the GitHub repository secret `RENDER_DEPLOY_HOOK_URL`.
 
-Render supplies the `PORT` environment variable; the application uses it automatically and falls back to port `8080` locally. Pull requests run CI only and do not deploy.
+Render supplies the `PORT` environment variable; the application uses it automatically and falls back to port `8080` locally. Dockerized deployment should keep the app listening on `$PORT`, which Spring Boot reads from `application.yml`. Pull requests run CI only and do not deploy.
 
 ## Configuration
 

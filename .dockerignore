@@ -1,0 +1,10 @@
+target/
+dist/
+.git/
+.github/
+.idea/
+.vscode/
+*.iml
+.env.local
+.DS_Store
+README.md
