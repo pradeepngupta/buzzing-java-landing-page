@@ -19,7 +19,7 @@
     <script type="application/ld+json" th:if="${site.launchEvent.enabled}" th:utext="${eventJson}"></script>
     <script type="application/ld+json" th:utext="${faqJson}"></script>
 </head>
-<body>
+<body th:attr="data-api-base=${site.apiBase}">
 <header class="masthead"><a class="wordmark" href="#top" aria-label="Buzzing Java home"><span>BUZZING</span> JAVA</a><span class="edition">A book about durable software</span></header>
 <main id="top">
     <section class="hero wrap" aria-labelledby="hero-title">

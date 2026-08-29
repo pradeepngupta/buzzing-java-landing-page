@@ -1,4 +1,6 @@
 (() => {
+  const apiBase = (document.body.dataset.apiBase || '').replace(/\/$/, '');
+  const apiUrl = (path) => `${apiBase}${path}`;
   const countdown = document.querySelector('.countdown');
   if (countdown) {
     const target = new Date(countdown.dataset.launchDate).getTime();
@@ -13,7 +15,7 @@
     const timer = setInterval(update, 1000);
   }
 
-  fetch('/api/waitlist/count')
+  fetch(apiUrl('/api/waitlist/count'))
     .then((response) => response.ok ? response.json() : Promise.reject(new Error('Unable to load waitlist count')))
     .then((response) => {
       updateWaitlistCounter(response);
@@ -49,7 +51,7 @@
     success.hidden = false;
     try {
       const response = await submitWaitlist(new FormData(form));
-      const countResponse = await fetch('/api/waitlist/count');
+      const countResponse = await fetch(apiUrl('/api/waitlist/count'));
       if (countResponse.ok) updateWaitlistCounter(await countResponse.json());
       form.reset();
       const other = form.querySelector('#other-expectation');
@@ -91,7 +93,7 @@
       }
     }
     console.log('Waitlist form data:', submittedData);
-    const response = await fetch('/api/waitlist', {
+    const response = await fetch(apiUrl('/api/waitlist'), {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(submittedData)

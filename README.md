@@ -49,11 +49,11 @@ All page content is in `src/main/resources/application.yml`, bound to the typed 
 - Set `freebie.enabled` to true and provide its configured title, description, and quantity to render the optional first-X section. It is disabled by default because the freebie is not decided yet.
 - FAQ visible text and FAQPage JSON-LD are generated from the same `faq` list.
 - Launch event schema is controlled by `launch-event.enabled`; unknown location data is intentionally omitted.
+- Local Spring Boot pages use the same-origin API by default. The static export calls the Render API when `WAITLIST_API_BASE` is set (the GitHub Actions workflow sets it to `https://buzzing-java-waitlist-api.onrender.com`).
+- Configure Render's `WAITLIST_ALLOWED_ORIGINS` environment variable with a comma-separated list of allowed site origins. The default allows `https://pradeepngupta.github.io`.
 
 ## Architecture and future work
 
 The current flow is `Spring Boot + Thymeleaf -> responsive landing page -> static dist/ export`. The waitlist validates the request, checks the configured Google Sheet email column for duplicates, and appends new signups to the sheet.
 
 The waitlist API is available at `GET /api/waitlist/count`, which returns the real non-empty email-row count with a 60-second in-memory cache, and `POST /api/waitlist`, which returns `{ "message": "You are on the list!" }` for both new and duplicate signups.
-
-Not implemented yet: database, PostgreSQL, JPA, migrations, n8n, email automation, persistence, deployment, CloudFront, Render, infrastructure, CI/CD, DNS, and production secrets.

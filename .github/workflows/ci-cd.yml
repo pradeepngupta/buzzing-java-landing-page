@@ -35,13 +35,15 @@ jobs:
         run: mvn --batch-mode --update-snapshots verify
 
       - name: Export static site
+        env:
+          WAITLIST_API_BASE: https://buzzing-java-waitlist-api.onrender.com
         run: >-
           java -jar target/buzzing-java-landing-page-0.1.0-SNAPSHOT.jar
           --spring.profiles.active=export
           --spring.main.web-application-type=none
 
       - name: Upload site artifact
-        uses: actions/upload-pages-artifact@v4
+        uses: actions/upload-pages-artifact@v5
         with:
           path: dist
 

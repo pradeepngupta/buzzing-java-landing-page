@@ -50,11 +50,12 @@ public class WaitlistService {
                 .anyMatch(existing -> existing.equalsIgnoreCase(email))) {
             return new MessageResponse("You are on the list!");
         }
+        List<String> expectations = request.expectations() == null ? List.of() : request.expectations();
         WaitlistSheetRow sheetRow = new WaitlistSheetRow(
             request.name().trim(),
             email,
             request.party().trim(),
-            String.join(", ", request.expectations()),
+            String.join(", ", expectations),
             request.otherExpectation() == null ? "" : request.otherExpectation().trim());
         googleSheetsService.ifPresent(service -> service.append(sheetRow));
         countCache = new CountCache(0, 0L);
@@ -86,9 +87,6 @@ public class WaitlistService {
         }
         if (request.party() == null || request.party().isBlank()) {
             throw new IllegalArgumentException("Party preference is required.");
-        }
-        if (request.expectations() == null || request.expectations().isEmpty()) {
-            throw new IllegalArgumentException("At least one expectation is required.");
         }
     }
 

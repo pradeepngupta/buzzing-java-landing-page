@@ -3,6 +3,7 @@ package com.buzzingjava;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.options;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -61,4 +62,25 @@ class LandingPageApplicationTests {
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.message").value("You are on the list!"));
         }
+
+    @Test
+    void waitlistApiAcceptsMissingOptionalExpectations() throws Exception {
+        String request = "{" +
+            "\"name\":\"Optional Builder\",\"email\":\"optional@example.com\",\"party\":\"Online\"}";
+        mockMvc.perform(post("/api/waitlist")
+                .contentType("application/json")
+                .content(request))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.message").value("You are on the list!"));
+    }
+
+    @Test
+    void waitlistApiAllowsGitHubPagesOrigin() throws Exception {
+        mockMvc.perform(options("/api/waitlist")
+                .header("Origin", "https://pradeepngupta.github.io")
+                .header("Access-Control-Request-Method", "POST"))
+                .andExpect(status().isOk())
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.header()
+                        .string("Access-Control-Allow-Origin", "https://pradeepngupta.github.io"));
+    }
 }

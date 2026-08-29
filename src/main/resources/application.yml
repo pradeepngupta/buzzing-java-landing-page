@@ -13,6 +13,7 @@ google:
     email-range: ${GOOGLE_SHEET_EMAIL_RANGE:Waitlist!B:B}
 
 buzzing-java:
+  api-base: ${WAITLIST_API_BASE:}
   book:
     title: "Buzzing Java"
     subtitle: "The Hidden Reason Java Remains the Foundation of Trusted Systems in the Age of AI"

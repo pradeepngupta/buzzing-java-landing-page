@@ -8,7 +8,10 @@ import org.springframework.test.context.ActiveProfiles;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest(properties = "spring.profiles.active=export")
+@SpringBootTest(properties = {
+    "spring.profiles.active=export",
+    "buzzing-java.api-base=https://buzzing-java-waitlist-api.onrender.com"
+})
 @ActiveProfiles({"test", "export"})
 class StaticSiteExporterTests {
     @Test
@@ -18,6 +21,7 @@ class StaticSiteExporterTests {
         assertThat(Files.exists(Path.of("dist/js/site.js"))).isTrue();
         assertThat(Files.exists(Path.of("dist/images/og-image.svg"))).isTrue();
         assertThat(Files.readString(Path.of("dist/index.html")))
-                .contains("Buzzing Java", "FAQPage", "css/site.css", "js/site.js");
+            .contains("Buzzing Java", "FAQPage", "css/site.css", "js/site.js",
+                "https://buzzing-java-waitlist-api.onrender.com");
     }
 }

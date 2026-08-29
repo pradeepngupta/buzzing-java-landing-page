@@ -14,7 +14,8 @@ public record SiteProperties(
         List<Perk> perks,
         Seo seo,
         List<Faq> faq,
-        LaunchEvent launchEvent) {
+        LaunchEvent launchEvent,
+        String apiBase) {
 
     public record Book(String title, String subtitle, String author, String launchDate,
                        String launchDateIso, String description, String genre, String language) {}
