@@ -1,6 +1,35 @@
 (() => {
   const apiBase = (document.body.dataset.apiBase || '').replace(/\/$/, '');
   const apiUrl = (path) => `${apiBase}${path}`;
+  const utmQueryKeys = {
+    utm_source: 'utm_source',
+    utm_medium: 'utm_medium',
+    utm_campaign: 'utm_campaign'
+  };
+
+  function captureUtmParameters() {
+    const params = new URLSearchParams(window.location.search);
+    Object.entries(utmQueryKeys).forEach(([storageKey, queryKey]) => {
+      const value = params.get(queryKey) ?? '';
+      try {
+        sessionStorage.setItem(storageKey, value);
+      } catch (error) {
+        console.warn('Unable to persist UTM parameter to sessionStorage:', error);
+      }
+    });
+  }
+
+  function readStoredUtmValue(key) {
+    try {
+      return sessionStorage.getItem(key) ?? '';
+    } catch (error) {
+      console.warn('Unable to read UTM parameter from sessionStorage:', error);
+      return '';
+    }
+  }
+
+  captureUtmParameters();
+
   const countdown = document.querySelector('.countdown');
   if (countdown) {
     const target = new Date(countdown.dataset.launchDate).getTime();
@@ -92,11 +121,19 @@
         submittedData[key] = value;
       }
     }
-    console.log('Waitlist form data:', submittedData);
+
+    const payload = {
+      ...submittedData,
+      utmSource: readStoredUtmValue('utm_source') || '',
+      utmMedium: readStoredUtmValue('utm_medium') || '',
+      utmCampaign: readStoredUtmValue('utm_campaign') || ''
+    };
+
+    console.log('Waitlist form data:', payload);
     const response = await fetch(apiUrl('/api/waitlist'), {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(submittedData)
+      body: JSON.stringify(payload)
     });
     if (!response.ok) throw new Error('Unable to join waitlist');
     return response.json();
