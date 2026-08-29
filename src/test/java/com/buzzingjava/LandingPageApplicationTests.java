@@ -80,7 +80,7 @@ class LandingPageApplicationTests {
     @Test
     void waitlistRowUsesFixedOrderWithTimestampFallback() {
         List<Object> row = GoogleSheetsService.buildRow(new WaitlistSheetRow(
-                "",
+                "2026-08-29T15:21:32.123Z",
                 "Ada Lovelace",
                 "ada@example.com",
                 "Online",
