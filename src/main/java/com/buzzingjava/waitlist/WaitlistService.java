@@ -1,62 +1,77 @@
 package com.buzzingjava.waitlist;
 
 import com.buzzingjava.config.SiteProperties;
+import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
-import java.util.concurrent.ThreadLocalRandom;
-import java.util.concurrent.atomic.AtomicInteger;
-import org.springframework.beans.factory.annotation.Value;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 @Service
 public class WaitlistService {
-    private static final int[] INCREMENTS = {1, 3, 5, 10};
+    private static final long COUNT_CACHE_TTL_MILLIS = 60_000L;
     private static final Pattern EMAIL_PATTERN = Pattern.compile("^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$");
     private static final Logger LOGGER = LoggerFactory.getLogger(WaitlistService.class);
 
-    private final SiteProperties.Waitlist.Counter configuration;
-    private final AtomicInteger count;
     private final Optional<GoogleSheetsService> googleSheetsService;
+    private volatile CountCache countCache = new CountCache(0, 0L);
 
     public WaitlistService(
             SiteProperties site,
-            Optional<GoogleSheetsService> googleSheetsService,
-            @Value("${google.sheets.minimum-display-count:50}") int minimumDisplayCount) {
-        configuration = site.waitlist().counter();
-        count = new AtomicInteger(minimumDisplayCount);
+            Optional<GoogleSheetsService> googleSheetsService) {
         this.googleSheetsService = googleSheetsService;
     }
 
     public CountResponse currentCount() {
-        int actualCount = 0;
-        try {
-            actualCount = googleSheetsService.map(GoogleSheetsService::getRowCount).orElse(0);
-        } catch (RuntimeException exception) {
-            LOGGER.error("Unable to read the waitlist count from Google Sheets; using 0.", exception);
+        CountCache cached = countCache;
+        long now = System.currentTimeMillis();
+        if (now - cached.cachedAt() < COUNT_CACHE_TTL_MILLIS) {
+            return new CountResponse(cached.count());
         }
-        int current = Math.max(actualCount, count.get());
-        return new CountResponse(current, configuration.enabled() && current > configuration.threshold());
+        synchronized (this) {
+            cached = countCache;
+            now = System.currentTimeMillis();
+            if (now - cached.cachedAt() >= COUNT_CACHE_TTL_MILLIS) {
+                int count = readSignupCount();
+                countCache = new CountCache(count, now);
+                cached = countCache;
+            }
+        }
+        return new CountResponse(cached.count());
     }
 
-    public CountResponse join(WaitlistRequest request) {
+    public MessageResponse join(WaitlistRequest request) {
         validate(request);
+        String email = request.email().trim();
+        if (googleSheetsService.isPresent() && googleSheetsService.get().getEmails().stream()
+                .skip(1)
+                .map(String::trim)
+                .anyMatch(existing -> existing.equalsIgnoreCase(email))) {
+            return new MessageResponse("You are on the list!");
+        }
         WaitlistSheetRow sheetRow = new WaitlistSheetRow(
             request.name().trim(),
-            request.email().trim(),
+            email,
             request.party().trim(),
             String.join(", ", request.expectations()),
             request.otherExpectation() == null ? "" : request.otherExpectation().trim());
         googleSheetsService.ifPresent(service -> service.append(sheetRow));
-        int increment = INCREMENTS[ThreadLocalRandom.current().nextInt(INCREMENTS.length)];
-        count.addAndGet(increment);
+        countCache = new CountCache(0, 0L);
+        return new MessageResponse("You are on the list!");
+    }
+
+    private int readSignupCount() {
         try {
-            java.util.concurrent.TimeUnit.MILLISECONDS.sleep(1000); // Simulate processing delay
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
+            return (int) googleSheetsService.map(GoogleSheetsService::getEmails)
+                    .orElse(List.of()).stream()
+                    .skip(1)
+                    .filter(email -> !email.trim().isEmpty())
+                    .count();
+        } catch (RuntimeException exception) {
+            LOGGER.error("Unable to read the waitlist count from Google Sheets; using 0.", exception);
+            return 0;
         }
-        return currentCount();
     }
 
     private void validate(WaitlistRequest request) {
@@ -77,7 +92,11 @@ public class WaitlistService {
         }
     }
 
-    public record CountResponse(int count, boolean visible) {}
+    private record CountCache(int count, long cachedAt) {}
+
+    public record CountResponse(int count) {}
+
+    public record MessageResponse(String message) {}
 
     public record WaitlistRequest(String name, String email, String party,
                                   java.util.List<String> expectations, String otherExpectation) {}

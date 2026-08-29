@@ -44,20 +44,15 @@ Render supplies the `PORT` environment variable; the application uses it automat
 All page content is in `src/main/resources/application.yml`, bound to the typed `SiteProperties` model. The page does not scatter book details through templates.
 
 - `cta.mode` supports `waitlist` and is structured for a future `buy` mode; all CTA instances use the shared label and link.
-- The waitlist counter appears only when `current-count` is greater than `threshold` and `enabled` is true.
+- The waitlist counter is loaded from the Google Sheet through the cached waitlist count endpoint.
 - Set `freebie.enabled` to true and provide its configured title, description, and quantity to render the optional first-X section. It is disabled by default because the freebie is not decided yet.
 - FAQ visible text and FAQPage JSON-LD are generated from the same `faq` list.
 - Launch event schema is controlled by `launch-event.enabled`; unknown location data is intentionally omitted.
 
 ## Architecture and future work
 
-The current flow is `Spring Boot + Thymeleaf -> responsive landing page -> static dist/ export`. The waitlist currently validates in the browser and simulates success. `submitWaitlist()` contains the future integration point for `POST /api/waitlist`.
+The current flow is `Spring Boot + Thymeleaf -> responsive landing page -> static dist/ export`. The waitlist validates the request, checks the configured Google Sheet email column for duplicates, and appends new signups to the sheet.
 
-The waitlist API is now available in-memory:
-
-- `GET /api/waitlist/count` returns `{ "count": 252, "visible": true }`.
-- `POST /api/waitlist` accepts the form fields as JSON and returns the incremented count. The server randomly adds 1, 3, 5, or 10. The frontend calls both endpoints with `fetch`.
-
-This is intentionally not persistent; restarting the application resets the count from configuration.
+The waitlist API is available at `GET /api/waitlist/count`, which returns the real non-empty email-row count with a 60-second in-memory cache, and `POST /api/waitlist`, which returns `{ "message": "You are on the list!" }` for both new and duplicate signups.
 
 Not implemented yet: database, PostgreSQL, JPA, migrations, n8n, email automation, persistence, deployment, CloudFront, Render, infrastructure, CI/CD, DNS, and production secrets.

@@ -39,7 +39,6 @@ class LandingPageApplicationTests {
     void loadsConfigurationAndCounterRule() {
         assertThat(site.book().launchDateIso()).isEqualTo("2026-12-07T00:00:00+05:30");
         assertThat(site.cta().mode()).isEqualTo("waitlist");
-        assertThat(site.waitlist().counter().currentCount()).isGreaterThan(site.waitlist().counter().threshold());
         assertThat(site.freebie().enabled()).isFalse();
         assertThat(site.faq()).hasSize(7);
         assertThat(site.launchEvent().enabled()).isTrue();
@@ -47,11 +46,10 @@ class LandingPageApplicationTests {
     }
 
         @Test
-        void waitlistApiReturnsAndIncrementsServerCount() throws Exception {
-        int initialCount = 50;
+        void waitlistApiReturnsRealCountAndSuccessMessage() throws Exception {
         mockMvc.perform(get("/api/waitlist/count"))
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$.count").value(initialCount));
+            .andExpect(jsonPath("$.count").value(0));
 
         String request = "{" +
             "\"name\":\"Test Builder\",\"email\":\"builder@example.com\",\"party\":\"Online\"," +
@@ -61,10 +59,6 @@ class LandingPageApplicationTests {
                 .contentType("application/json")
                 .content(request))
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$.count").value(org.hamcrest.Matchers.anyOf(
-                org.hamcrest.Matchers.is(initialCount + 1),
-                org.hamcrest.Matchers.is(initialCount + 3),
-                org.hamcrest.Matchers.is(initialCount + 5),
-                org.hamcrest.Matchers.is(initialCount + 10))));
+            .andExpect(jsonPath("$.message").value("You are on the list!"));
         }
 }

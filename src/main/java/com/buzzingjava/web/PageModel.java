@@ -10,11 +10,7 @@ public final class PageModel {
     private PageModel() {}
 
     public static void addTo(Model model, SiteProperties site) {
-        boolean showCounter = site.waitlist().counter().enabled()
-                && site.waitlist().counter().currentCount() > site.waitlist().counter().threshold();
         model.addAttribute("site", site);
-        model.addAttribute("showCounter", showCounter);
-        model.addAttribute("waitlistCount", site.waitlist().counter().currentCount());
         model.addAttribute("bookJson", bookJson(site));
         model.addAttribute("eventJson", eventJson(site));
         model.addAttribute("faqJson", faqJson(site));

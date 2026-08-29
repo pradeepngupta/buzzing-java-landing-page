@@ -22,7 +22,7 @@ public class WaitlistApiController {
     }
 
     @PostMapping
-    public ResponseEntity<WaitlistService.CountResponse> join(
+    public ResponseEntity<WaitlistService.MessageResponse> join(
             @RequestBody WaitlistService.WaitlistRequest request) {
         return ResponseEntity.ok(waitlistService.join(request));
     }

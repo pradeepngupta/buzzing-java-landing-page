@@ -1,6 +1,4 @@
 (() => {
-  const fallbackWaitlistCount = 247;
-  const cachedWaitlistCountKey = 'buzzing-java-waitlist-count';
   const countdown = document.querySelector('.countdown');
   if (countdown) {
     const target = new Date(countdown.dataset.launchDate).getTime();
@@ -18,12 +16,10 @@
   fetch('/api/waitlist/count')
     .then((response) => response.ok ? response.json() : Promise.reject(new Error('Unable to load waitlist count')))
     .then((response) => {
-      cacheWaitlistCount(response.count);
       updateWaitlistCounter(response);
     })
     .catch((error) => {
       console.error('Waitlist count request failed:', error);
-      updateWaitlistCounter({count: getCachedWaitlistCount(), visible: true});
     });
 
   document.querySelectorAll('[data-expectation]').forEach((checkbox) => checkbox.addEventListener('change', () => {
@@ -53,8 +49,8 @@
     success.hidden = false;
     try {
       const response = await submitWaitlist(new FormData(form));
-      cacheWaitlistCount(response.count);
-      updateWaitlistCounter(response);
+      const countResponse = await fetch('/api/waitlist/count');
+      if (countResponse.ok) updateWaitlistCounter(await countResponse.json());
       form.reset();
       const other = form.querySelector('#other-expectation');
       other.hidden = true;
@@ -70,27 +66,10 @@
     }
   });
 
-  function cacheWaitlistCount(count) {
-    try {
-      localStorage.setItem(cachedWaitlistCountKey, String(count));
-    } catch (error) {
-      console.warn('Waitlist count could not be cached:', error);
-    }
-  }
-
-  function getCachedWaitlistCount() {
-    try {
-      const cached = Number(localStorage.getItem(cachedWaitlistCountKey));
-      return Number.isFinite(cached) ? cached : fallbackWaitlistCount;
-    } catch (error) {
-      return fallbackWaitlistCount;
-    }
-  }
-
   function updateWaitlistCounter(response) {
     const counter = document.querySelector('.counter');
     if (!counter) return;
-    if (!response.visible) {
+    if (!Number.isFinite(response.count) || response.count <= 0) {
       counter.hidden = true;
       return;
     }
@@ -105,6 +84,8 @@
         submittedData[key] = Array.isArray(submittedData[key])
           ? [...submittedData[key], value]
           : [submittedData[key], value];
+      } else if (key === 'expectations') {
+        submittedData[key] = [value];
       } else {
         submittedData[key] = value;
       }

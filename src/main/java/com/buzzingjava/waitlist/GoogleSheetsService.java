@@ -4,6 +4,7 @@ import com.google.api.services.sheets.v4.Sheets;
 import com.google.api.services.sheets.v4.model.ValueRange;
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
@@ -14,14 +15,17 @@ public class GoogleSheetsService {
     private final Sheets sheets;
     private final String spreadsheetId;
     private final String range;
+    private final String emailRange;
 
     public GoogleSheetsService(
             Sheets sheets,
             @Value("${google.sheets.spreadsheet-id:}") String spreadsheetId,
-            @Value("${google.sheets.range:Sheet1!A:E}") String range) {
+            @Value("${google.sheets.range:Waitlist!A:E}") String range,
+            @Value("${google.sheets.email-range:Waitlist!B:B}") String emailRange) {
         this.sheets = sheets;
         this.spreadsheetId = spreadsheetId;
         this.range = range;
+        this.emailRange = emailRange;
     }
 
     public void append(WaitlistSheetRow row) {
@@ -43,7 +47,7 @@ public class GoogleSheetsService {
         }
     }
 
-    public int getRowCount() {
+    public List<String> getEmails() {
         if (spreadsheetId.isBlank()) {
             throw new IllegalStateException(
                     "Google Sheets is not configured. Set GOOGLE_SHEET_ID to the target spreadsheet ID.");
@@ -51,11 +55,16 @@ public class GoogleSheetsService {
 
         try {
             ValueRange response = sheets.spreadsheets().values()
-                    .get(spreadsheetId, range)
+                    .get(spreadsheetId, emailRange)
                     .execute();
-            return response.getValues() == null ? 0 : response.getValues().size();
+            if (response.getValues() == null) {
+                return List.of();
+            }
+            return response.getValues().stream()
+                    .map(row -> row.isEmpty() ? "" : Objects.toString(row.get(0), ""))
+                    .toList();
         } catch (IOException exception) {
-            throw new IllegalStateException("Unable to read the waitlist count from Google Sheets.", exception);
+            throw new IllegalStateException("Unable to read waitlist emails from Google Sheets.", exception);
         }
     }
 }

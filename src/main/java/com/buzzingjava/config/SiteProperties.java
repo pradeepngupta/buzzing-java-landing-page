@@ -22,7 +22,7 @@ public record SiteProperties(
     public record Cta(String label, String mode, String link) {}
 
     public record Waitlist(Counter counter, List<String> partyOptions, List<String> expectations) {
-        public record Counter(boolean enabled, int threshold, int currentCount) {}
+        public record Counter(boolean enabled, int threshold) {}
     }
 
     public record Freebie(boolean enabled, int quantity, String title, String description) {}
