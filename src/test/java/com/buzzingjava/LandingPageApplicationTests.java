@@ -35,7 +35,7 @@ class LandingPageApplicationTests {
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("FAQPage")))
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("\"@type\":\"Place\"")))
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("\"name\":\"Bengaluru, India\"")))
-                .andExpect(content().string(org.hamcrest.Matchers.containsString("Launch event: <span>Bengaluru, India</span>")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("Launch event: <span class=\"launch-location\">Bengaluru, India</span>")))
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("Be there when the story starts buzzing.")));
     }
 

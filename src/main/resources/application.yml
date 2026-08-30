@@ -107,3 +107,12 @@ buzzing-java:
     event-status: "EventScheduled"
     event-attendance-mode: "MixedEventAttendanceMode"
     location: "Bengaluru, India"
+  author:
+    name: "Pradeep Gupta"
+    bio: "20+ years building trusted, high-stakes Java systems in global custody and securities services. Writes about durable software at Beyond the Stack Now."
+    photo: "/images/author-photo.jpg"
+    social:
+      linkedin: "https://linkedin.com/in/pradgupt"
+      x: "https://x.com/pradeepxgupta"
+      github: "https://github.com/pradeepngupta"
+      substack: "https://beyondthestacknow.substack.com"

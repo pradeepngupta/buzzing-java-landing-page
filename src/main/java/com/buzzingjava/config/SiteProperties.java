@@ -15,7 +15,8 @@ public record SiteProperties(
         Seo seo,
         List<Faq> faq,
         LaunchEvent launchEvent,
-        String apiBase) {
+        String apiBase,
+        Author author) {
 
     public record Book(String title, String subtitle, String author, String launchDate,
                        String launchDateIso, String description, String genre, String language) {}
@@ -38,6 +39,10 @@ public record SiteProperties(
 
     public record Faq(String question, String answer) {}
 
+    public record Author(String name, String bio, String photo, Social social) {
+        public record Social(String linkedin, String x, String github, String substack) {}
+    }
+    
     public record LaunchEvent(boolean enabled, String name, String startDate, String endDate,
                               String eventStatus, String eventAttendanceMode, String location) {}
 }
