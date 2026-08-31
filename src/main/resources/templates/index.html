@@ -14,12 +14,12 @@
     <meta property="og:url" th:content="${site.seo.ogUrl}" />
     <meta property="og:image" th:content="${site.seo.ogImage}" />
     <meta property="og:type" content="product" />
-    <meta property="og:site_name" content="${site.seo.ogSiteName}" />
+    <meta property="og:site_name" th:content="${site.seo.ogSiteName}" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:type" content="${site.seo.ogImageType}">
-    <meta property="og:image:alt" content="${site.seo.ogImageAlt}">
-    <meta property="article:author" content="${site.author.social.linkedin}" />
+    <meta property="og:image:type" th:content="${site.seo.ogImageType}">
+    <meta property="og:image:alt" th:content="${site.seo.ogImageAlt}">
+    <meta property="article:author" th:content="${site.author.social.linkedin}" />
     <meta property="og:locale" content="en_US" />
     <meta name="theme-color" content="#4285f4" />
 
@@ -27,9 +27,9 @@
     <meta name="twitter:title" th:content="${site.seo.title}">
     <meta name="twitter:description" th:content="${site.seo.description}">
     <meta name="twitter:image" th:content="${site.seo.ogImage}" />
-    <meta name="twitter:site" content="${site.seo.xName}" />
+    <meta name="twitter:site" th:content="${site.seo.xName}" />
 
-    <meta name="author" content="${site.author.name}">
+    <meta name="author" th:content="${site.author.name}">
 
     <link rel="icon" type="image/png" href="assets/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
