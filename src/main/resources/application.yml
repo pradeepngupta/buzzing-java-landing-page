@@ -86,6 +86,8 @@ buzzing-java:
     og-url: "https://localhost:8080/"
     base-path: "/"
     og-image: "https://localhost:8080/images/og-image.jpg"
+    og-image-width: 1200
+    og-image-height: 730
   faq:
     - question: "What is Buzzing Java about?"
       answer: "Buzzing Java explains why Java remains important in trusted enterprise systems and what its longevity teaches us about real-world engineering in the AI era."
