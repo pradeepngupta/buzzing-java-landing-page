@@ -3,10 +3,6 @@ package com.buzzingjava.config;
 import java.util.List;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-import com.buzzingjava.config.SiteProperties.Seo.Author;
-import com.buzzingjava.config.SiteProperties.Seo.Faq;
-import com.buzzingjava.config.SiteProperties.Seo.LaunchEvent;
-
 @ConfigurationProperties(prefix = "buzzing-java")
 public record SiteProperties(
         Book book,
