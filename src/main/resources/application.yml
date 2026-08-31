@@ -82,8 +82,10 @@ buzzing-java:
   seo:
     title: "Buzzing Java | Why Java Still Powers Trusted Systems"
     description: "Discover why Java remains the foundation of trusted enterprise systems in the age of AI. Join the Buzzing Java book launch waitlist."
-    canonical-url: "https://example.com/buzzing-java/"
-    og-image: "/images/og-image.svg"
+    canonical-url: "https://localhost:8080/"
+    og-url: "https://localhost:8080/"
+    base-path: "/"
+    og-image: "https://localhost:8080/images/og-image.jpg"
   faq:
     - question: "What is Buzzing Java about?"
       answer: "Buzzing Java explains why Java remains important in trusted enterprise systems and what its longevity teaches us about real-world engineering in the AI era."
@@ -110,7 +112,7 @@ buzzing-java:
   author:
     name: "Pradeep Gupta"
     bio: "20+ years building trusted, high-stakes Java systems in global custody and securities services. Writes about durable software at Beyond the Stack Now."
-    photo: "/images/author-photo.jpg"
+    photo: "images/author-photo.jpg"
     social:
       linkedin: "https://linkedin.com/in/pradgupt"
       x: "https://x.com/pradeepxgupta"

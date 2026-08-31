@@ -34,7 +34,7 @@ public class StaticSiteExporter implements CommandLineRunner {
         Files.writeString(output.resolve("index.html"), templateEngine.process("index", context));
         copyResource("static/css/site.css", output.resolve("css/site.css"));
         copyResource("static/js/site.js", output.resolve("js/site.js"));
-        copyResource("static/images/og-image.svg", output.resolve("images/og-image.svg"));
+        copyResource("static/images/og-image.jpg", output.resolve("images/og-image.jpg"));
         copyResource("static/images/author-photo.jpg", output.resolve("images/author-photo.jpg"));
         copyResource("static/images/book-cover-hero.webp", output.resolve("images/book-cover-hero.webp"));
         Files.createDirectories(output.resolve("fonts"));

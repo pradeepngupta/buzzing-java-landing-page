@@ -2,15 +2,17 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <base th:href="${site.seo.basePath ?: '/'}">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title th:text="${site.seo.title}">Buzzing Java | Why Java Still Powers Trusted Systems</title>
     <meta name="description" th:content="${site.seo.description}">
     <meta name="robots" content="index, follow">
     <link rel="canonical" th:href="${site.seo.canonicalUrl}">
-    <meta property="og:type" content="book">
+    <meta property="og:type" content="website">
     <meta property="og:title" th:content="${site.seo.title}">
     <meta property="og:description" th:content="${site.seo.description}">
     <meta property="og:image" th:content="${site.seo.ogImage}">
+    <meta property="og:url" th:content="${site.seo.ogUrl}">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" th:content="${site.seo.title}">
     <meta name="twitter:description" th:content="${site.seo.description}">
@@ -40,7 +42,7 @@
                 </div>
             </div>
             <div class="book-hero">
-                <img src="/images/book-cover-hero.webp" alt="Buzzing Java book cover, styled as a physical hardcover on a desk with a coffee mug and notebook sketching Java's role in AI-era systems" loading="eager" width="700" height="875">
+                <img src="images/book-cover-hero.webp" alt="Buzzing Java book cover, styled as a physical hardcover on a desk with a coffee mug and notebook sketching Java's role in AI-era systems" loading="eager" width="700" height="875">
             </div>
         </div>
     </section>

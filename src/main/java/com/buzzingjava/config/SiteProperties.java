@@ -35,7 +35,7 @@ public record SiteProperties(
 
     public record Perk(String title, String description) {}
 
-    public record Seo(String title, String description, String canonicalUrl, String ogImage) {}
+    public record Seo(String title, String description, String canonicalUrl, String ogUrl, String basePath, String ogImage) {}
 
     public record Faq(String question, String answer) {}
 
