@@ -3,6 +3,10 @@ package com.buzzingjava.config;
 import java.util.List;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+import com.buzzingjava.config.SiteProperties.Seo.Author;
+import com.buzzingjava.config.SiteProperties.Seo.Faq;
+import com.buzzingjava.config.SiteProperties.Seo.LaunchEvent;
+
 @ConfigurationProperties(prefix = "buzzing-java")
 public record SiteProperties(
         Book book,
@@ -35,7 +39,7 @@ public record SiteProperties(
 
     public record Perk(String title, String description) {}
 
-    public record Seo(String title, String description, String canonicalUrl, String ogUrl, String basePath, String ogImage) {}
+    public record Seo(String title, String description, String canonicalUrl, String ogUrl, String basePath, String ogImage, String ogSiteName, String ogImageType, String ogImageAlt, String xName) {}
 
     public record Faq(String question, String answer) {}
 
