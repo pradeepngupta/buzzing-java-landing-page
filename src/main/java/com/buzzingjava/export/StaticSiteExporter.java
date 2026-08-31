@@ -37,6 +37,14 @@ public class StaticSiteExporter implements CommandLineRunner {
         copyResource("static/images/og-image.jpg", output.resolve("images/og-image.jpg"));
         copyResource("static/images/author-photo.jpg", output.resolve("images/author-photo.jpg"));
         copyResource("static/images/book-cover-hero.webp", output.resolve("images/book-cover-hero.webp"));
+        copyResource("static/assets/apple-touch-icon.png", output.resolve("assets/apple-touch-icon.png"));
+        copyResource("static/assets/favicon-96x96.png", output.resolve("assets/favicon-96x96.png"));
+        copyResource("static/assets/favicon.svg", output.resolve("assets/favicon.svg"));
+        copyResource("static/assets/favicon.ico", output.resolve("assets/favicon.ico"));
+        copyResource("static/assets/site.webmanifest", output.resolve("assets/site.webmanifest"));
+        copyResource("static/assets/web-app-manifest-192x192.png", output.resolve("assets/web-app-manifest-192x192.png"));
+        copyResource("static/assets/web-app-manifest-512x512.png", output.resolve("assets/web-app-manifest-512x512.png"));
+
         Files.createDirectories(output.resolve("fonts"));
     }
 

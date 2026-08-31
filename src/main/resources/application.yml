@@ -86,8 +86,12 @@ buzzing-java:
     og-url: "https://localhost:8080/"
     base-path: "/"
     og-image: "https://localhost:8080/images/og-image.jpg"
+    og-image-type: "image/jpeg"
+    og-image-alt: "Discover why Java remains the foundation of trusted enterprise systems in the age of AI. Join the Buzzing Java book launch waitlist."
     og-image-width: 1200
-    og-image-height: 730
+    og-image-height: 630
+    og-site-name: "buzzingjava.com"
+    x-name: "@pradeepxgupta"
   faq:
     - question: "What is Buzzing Java about?"
       answer: "Buzzing Java explains why Java remains important in trusted enterprise systems and what its longevity teaches us about real-world engineering in the AI era."
