@@ -55,7 +55,7 @@
         <div class="hero-split">
             <div class="hero-copy">
                 <p class="hero-lede">Why does Java still hold the line when systems need to survive? <strong th:text="${site.book.title}">Buzzing Java</strong> follows the engineering habits, trade-offs, and quiet advantages behind its remarkable staying power in the age of AI.</p>
-                <a class="button button-primary" th:href="${site.cta.link}" th:text="${site.cta.label}">Join the Waitlist</a>
+                <a class="button button-primary" data-umami-event="cta-click" th:href="${site.cta.link}" th:text="${site.cta.label}">Join the Waitlist</a>
                 <div class="countdown" data-launch-date="2026-12-07T00:00:00+05:30" th:attr="data-launch-date=${site.book.launchDateIso}" aria-live="polite">
                     <p class="countdown-label">Until launch</p>
                     <div class="countdown-grid" aria-label="Countdown to book launch">
@@ -87,7 +87,7 @@
     <section class="faq-section wrap split-section" aria-labelledby="faq-title"><div class="section-heading"><div class="section-index">07 / THE SHORT ANSWERS</div><h2 id="faq-title">Questions worth asking.</h2></div><div class="faq-list"><details th:each="item : ${site.faq}"><summary th:text="${item.question}">What is Buzzing Java about?</summary><p th:text="${item.answer}">Buzzing Java explains why Java remains important.</p></details></div></section>
 </main>
 <footer class="footer wrap"><span class="wordmark"><span>BUZZING</span> JAVA</span><span>Launching <span th:text="${site.book.launchDate}">December 7, 2026</span></span></footer>
-<a class="sticky-cta button button-primary" th:href="${site.cta.link}" th:text="${site.cta.label}">Join the Waitlist</a>
+<a class="sticky-cta button button-primary" data-umami-event="cta-click" th:href="${site.cta.link}" th:text="${site.cta.label}">Join the Waitlist</a>
 <script src="js/site.js" defer></script>
 </body>
 </html>

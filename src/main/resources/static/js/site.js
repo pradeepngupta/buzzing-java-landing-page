@@ -79,7 +79,16 @@
     success.innerHTML = '<strong>You are on the list.</strong><span>We will keep you posted as launch gets closer.</span>';
     success.hidden = false;
     try {
+      const partyInterest = form.querySelector('input[name="party"]:checked').value;
+      const utmSource = readStoredUtmValue('utm_source') || 'direct';
       const response = await submitWaitlist(new FormData(form));
+      if (typeof umami !== 'undefined' && typeof umami.track === 'function') {
+        try {
+          umami.track('waitlist_signup', { partyInterest, utmSource });
+        } catch (error) {
+          console.warn('Unable to track waitlist signup:', error);
+        }
+      }
       const countResponse = await fetch(apiUrl('/api/waitlist/count'));
       if (countResponse.ok) updateWaitlistCounter(await countResponse.json());
       form.reset();
