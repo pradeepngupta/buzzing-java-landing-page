@@ -15,3 +15,14 @@
 .event-location { margin: 1rem 0 0; color: var(--muted); font-size: .8rem; }
 .form-success[hidden] { display: none; }
 .form-success.form-error { color: var(--error); border-color: var(--error); }
+.consent-field { margin: 1rem 0; }
+.consent-field label { display: flex; align-items: flex-start; gap: .55rem; cursor: pointer; font-size: .78rem; font-weight: 400; }
+.consent-field input { flex: 0 0 1rem; width: 1rem; min-height: 1rem; margin: .2rem 0 0; padding: 0; }
+.consent-field span { flex: 1; }
+.legal-page { padding-top: clamp(4rem, 10vw, 8rem); padding-bottom: clamp(4rem, 10vw, 8rem); }
+.legal-page h1 { max-width: 760px; margin: 1.5rem 0 2rem; }
+.legal-intro, .legal-note { max-width: 680px; font-size: 1.1rem; }
+.legal-note { margin: 2rem 0; padding: 1rem; border-left: 3px solid var(--acid); background: var(--card); font-size: .85rem; }
+.legal-copy { max-width: 680px; margin: 3rem 0; }
+.legal-copy h2 { margin-top: 2.5rem; margin-bottom: .8rem; font-size: 2rem; }
+.legal-copy p { color: #3f4c45; }

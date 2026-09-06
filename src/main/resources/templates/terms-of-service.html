@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <base th:href="${site.seo.basePath ?: '/'}">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Terms of Service | Buzzing Java</title>
+    <meta name="description" content="Terms of Service for the Buzzing Java waitlist.">
+    <link rel="stylesheet" href="css/site.css">
+</head>
+<body>
+<header class="masthead"><a class="wordmark" href="/" aria-label="Buzzing Java home"><span>BUZZING</span> JAVA</a><span class="edition">A book about durable software</span></header>
+<main class="legal-page wrap" aria-labelledby="legal-title">
+    <p class="section-index">TERMS OF SERVICE</p>
+    <h1 id="legal-title">The terms for joining the list.</h1>
+    <p class="legal-intro">These plain-language terms apply to your use of the Buzzing Java website and book launch waitlist.</p>
+    <p class="legal-note">Last updated: September 7, 2026</p>
+    <section class="legal-copy">
+        <h2>Using the waitlist</h2>
+        <p>Please provide information that is accurate and belongs to you. You agree to use the waitlist for its intended purpose and not to interfere with the website or submit automated, duplicate, or misleading entries.</p>
+        <h2>Communications</h2>
+        <p>By checking the consent box and joining the waitlist, you agree that we may contact you about the Buzzing Java launch, related previews, events, and updates. We will not use the waitlist to send unrelated spam. You can unsubscribe at any time using the link in an email or by contacting us.</p>
+        <h2>Early access</h2>
+        <p>“Early access” means that a waitlist member may hear about a launch date, price, preview, event, or related material before a broader public announcement. It does not guarantee a free copy, invitation, early delivery, a particular price, or access before everyone else.</p>
+        <h2>Website content</h2>
+        <p>Buzzing Java content is provided for general information and may change before launch. The site and waitlist are provided as available while we continue preparing the book and related materials.</p>
+        <h2>Changes</h2>
+        <p>We may update these terms as the project develops. The latest version will be posted on this page.</p>
+    </section>
+    <p><a class="button button-primary" href="/">Back to Buzzing Java</a></p>
+</main>
+<footer class="footer wrap"><span class="wordmark"><span>BUZZING</span> JAVA</span><span>Launching <span th:text="${site.book.launchDate}">December 7, 2026</span></span></footer>
+</body>
+</html>

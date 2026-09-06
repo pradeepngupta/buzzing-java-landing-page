@@ -20,7 +20,7 @@ buzzing-java:
     author: "Pradeep Gupta"
     launch-date: "December 7, 2026"
     launch-date-iso: "2026-12-07T00:00:00+05:30"
-    description: "Buzzing Java explores why Java remains central to trusted enterprise systems, and what its longevity reveals about building reliable software in the age of AI."
+    description: "Buzzing Java distills three decades of system design and Java principles into a working playbook for enterprise systems that hold up in the AI era — not nostalgia, but the ideas that never went out of date."
     genre: "Technology & Engineering"
     language: "English"
   cta:
@@ -51,7 +51,8 @@ buzzing-java:
   credibility:
     - value: "20+"
       label: "Years engineering"
-    - value: "300+"
+    # TODO: Replace with the current verified newsletter subscriber or LinkedIn follower count.
+    - value: "350+"
       label: "Java community"
     - value: "JPMORGAN"
       label: "Enterprise engineering"
@@ -97,6 +98,8 @@ buzzing-java:
       answer: "Buzzing Java explains why Java remains important in trusted enterprise systems and what its longevity teaches us about real-world engineering in the AI era."
     - question: "Who is this book for?"
       answer: "It is for Java builders, technical leaders, architects, interviewers, and curious engineers who want to understand durable systems."
+    - question: "Why does this matter to senior engineers, not just juniors?"
+      answer: "Framework churn affects everyone. Senior engineers often carry undocumented instincts about design that this book makes explicit and teachable; junior engineers get the same grounding years earlier than they'd otherwise find it."
     - question: "Is this an introductory Java book?"
       answer: "No. It is a perspective-driven book about engineering judgment, system trust, and Java's role in production, not a syntax tutorial."
     - question: "Why does Java still matter in the age of AI?"

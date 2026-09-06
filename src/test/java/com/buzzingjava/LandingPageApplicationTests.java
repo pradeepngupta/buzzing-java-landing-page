@@ -39,12 +39,26 @@ class LandingPageApplicationTests {
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("Be there when the story starts buzzing.")));
     }
 
+            @Test
+            void rendersPrivacyAndTermsPages() throws Exception {
+            mockMvc.perform(get("/privacy-policy"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("Privacy Policy")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("Kit and Brevo")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("pradeepngupta@gmail.com")));
+            mockMvc.perform(get("/terms-of-service"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("Terms of Service")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("Early access")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("unsubscribe")));
+            }
+
     @Test
     void loadsConfigurationAndCounterRule() {
         assertThat(site.book().launchDateIso()).isEqualTo("2026-12-07T00:00:00+05:30");
         assertThat(site.cta().mode()).isEqualTo("waitlist");
         assertThat(site.freebie().enabled()).isFalse();
-        assertThat(site.faq()).hasSize(7);
+        assertThat(site.faq()).hasSize(8);
         assertThat(site.launchEvent().enabled()).isTrue();
         assertThat(site.launchEvent().location()).isEqualTo("Bengaluru, India");
     }

@@ -32,16 +32,19 @@
 
   const countdown = document.querySelector('.countdown');
   if (countdown) {
-    const target = new Date(countdown.dataset.launchDate).getTime();
+    const fallbackLaunchDate = '2026-12-07T00:00:00+05:30';
+    const parsedLaunchDate = Date.parse(countdown.dataset.launchDate || '');
+    const target = Number.isFinite(parsedLaunchDate) ? parsedLaunchDate : Date.parse(fallbackLaunchDate);
     const units = ['days', 'hours', 'minutes', 'seconds'];
+    let timer;
     const update = () => {
-      const remaining = Math.max(0, target - Date.now());
+      const remaining = Number.isFinite(target) ? Math.max(0, target - Date.now()) : 0;
       const values = [Math.floor(remaining / 86400000), Math.floor(remaining / 3600000) % 24, Math.floor(remaining / 60000) % 60, Math.floor(remaining / 1000) % 60];
       units.forEach((unit, index) => { countdown.querySelector(`[data-unit="${unit}"]`).textContent = String(values[index]).padStart(2, '0'); });
       if (remaining === 0) { countdown.querySelector('.countdown-grid').hidden = true; countdown.querySelector('[data-launch-state]').hidden = false; clearInterval(timer); }
     };
     update();
-    const timer = setInterval(update, 1000);
+    timer = setInterval(update, 1000);
   }
 
   fetch(apiUrl('/api/waitlist/count'))
@@ -67,9 +70,11 @@
     document.querySelectorAll('.error').forEach((error) => error.textContent = '');
     const name = form.elements.name;
     const email = form.elements.email;
+    const privacyConsent = form.elements.privacyConsent;
     let valid = true;
     if (!name.value.trim()) { document.querySelector('[data-error-for="name"]').textContent = 'Please enter your name.'; valid = false; }
     if (!email.validity.valid || !email.value.trim()) { document.querySelector('[data-error-for="email"]').textContent = 'Please enter a valid email.'; valid = false; }
+    if (!privacyConsent.checked) { document.querySelector('[data-error-for="privacy-consent"]').textContent = 'Please agree to receive updates about Buzzing Java.'; valid = false; }
     if (!form.querySelector('input[name="party"]:checked')) { document.querySelector('[data-error-for="party"]').textContent = 'Please choose one option.'; valid = false; }
     if (!valid) return;
     const submit = form.querySelector('button[type="submit"]');

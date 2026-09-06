@@ -18,4 +18,16 @@ public class LandingPageController {
         PageModel.addTo(model, properties);
         return "index";
     }
+
+    @GetMapping("/privacy-policy")
+    public String privacyPolicy(Model model) {
+        PageModel.addTo(model, properties);
+        return "privacy-policy";
+    }
+
+    @GetMapping("/terms-of-service")
+    public String termsOfService(Model model) {
+        PageModel.addTo(model, properties);
+        return "terms-of-service";
+    }
 }

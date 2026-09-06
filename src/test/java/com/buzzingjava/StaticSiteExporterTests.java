@@ -17,6 +17,8 @@ class StaticSiteExporterTests {
     @Test
     void exportsStandaloneSite() throws Exception {
         assertThat(Files.exists(Path.of("dist/index.html"))).isTrue();
+        assertThat(Files.exists(Path.of("dist/privacy-policy/index.html"))).isTrue();
+        assertThat(Files.exists(Path.of("dist/terms-of-service/index.html"))).isTrue();
         assertThat(Files.exists(Path.of("dist/css/site.css"))).isTrue();
         assertThat(Files.exists(Path.of("dist/js/site.js"))).isTrue();
         assertThat(Files.exists(Path.of("dist/images/og-image.jpg"))).isTrue();
