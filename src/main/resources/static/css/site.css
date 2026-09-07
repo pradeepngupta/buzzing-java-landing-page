@@ -28,7 +28,7 @@
 .form-success.form-error { color: var(--error); border-color: var(--error); }
 .credential { align-self: start; }
 .credential span { font-size: 1.05rem; }
-.credential strong { white-space: pre; line-height: 1.05; }
+.credential strong { line-height: 1.05; }
 .consent-field { margin: 1rem 0; }
 .consent-field label { display: flex; align-items: flex-start; gap: .55rem; cursor: pointer; font-size: .78rem; font-weight: 400; }
 .consent-field input { flex: 0 0 1rem; width: 1rem; min-height: 1rem; margin: .2rem 0 0; padding: 0; }
@@ -40,3 +40,28 @@
 .legal-copy { max-width: 680px; margin: 3rem 0; }
 .legal-copy h2 { margin-top: 2.5rem; margin-bottom: .8rem; font-size: 2rem; }
 .legal-copy p { color: #3f4c45; }
+
+/* Keep narrow layouts shrinkable when content contains long phrases. */
+img, svg, video, canvas { max-width: 100%; }
+.hero-split > *, .split-section > *, .credibility-grid > *, .waitlist-section > *, .teaser-grid > *, .perk-list > *, .field, fieldset, form { min-width: 0; }
+.credential strong { white-space: normal; overflow-wrap: anywhere; }
+.contents-parts h3, .contents-parts li, .faq-list summary, .faq-list p, .consent-field span { overflow-wrap: anywhere; }
+.button { max-width: 100%; }
+.countdown-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.countdown-grid div { min-width: 0; }
+.choice-grid span, .pill-grid span { max-width: 100%; overflow-wrap: anywhere; }
+
+@media (max-width: 699px) {
+	.hero-split { grid-template-columns: minmax(0, 1fr); }
+	.book-hero img { width: min(100%, 350px); }
+	.credibility-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+	.form-row { grid-template-columns: minmax(0, 1fr); }
+	.sticky-cta { max-width: calc(100% - 2rem); }
+}
+
+@media (max-width: 360px) {
+	.credibility-grid { grid-template-columns: minmax(0, 1fr); }
+	.countdown-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .5rem; }
+	.countdown-grid div { border-right: 0; }
+	.countdown-grid div:nth-child(-n + 2) { border-bottom: 1px solid var(--line); padding-bottom: .4rem; }
+}
