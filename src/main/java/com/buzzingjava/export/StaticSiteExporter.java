@@ -30,12 +30,13 @@ public class StaticSiteExporter implements CommandLineRunner {
         Files.createDirectories(output);
         var model = new org.springframework.ui.ExtendedModelMap();
         PageModel.addTo(model, site);
-        var context = new Context(Locale.ENGLISH, model.asMap());
-        Files.writeString(output.resolve("index.html"), templateEngine.process("index", context));
+        model.addAttribute("assetBasePath", "./");
+        Files.writeString(output.resolve("index.html"), process("index", model));
+        model.addAttribute("assetBasePath", "../");
         Files.createDirectories(output.resolve("privacypolicy"));
-        Files.writeString(output.resolve("privacypolicy/index.html"), templateEngine.process("privacy-policy", context));
+        Files.writeString(output.resolve("privacypolicy/index.html"), process("privacy-policy", model));
         Files.createDirectories(output.resolve("termsofservice"));
-        Files.writeString(output.resolve("termsofservice/index.html"), templateEngine.process("terms-of-service", context));
+        Files.writeString(output.resolve("termsofservice/index.html"), process("terms-of-service", model));
         copyResource("static/css/site.css", output.resolve("css/site.css"));
         copyResource("static/js/site.js", output.resolve("js/site.js"));
         copyResource("static/images/og-image.jpg", output.resolve("images/og-image.jpg"));
@@ -50,6 +51,11 @@ public class StaticSiteExporter implements CommandLineRunner {
         copyResource("static/assets/web-app-manifest-512x512.png", output.resolve("assets/web-app-manifest-512x512.png"));
 
         Files.createDirectories(output.resolve("fonts"));
+    }
+
+    private String process(String template, org.springframework.ui.ExtendedModelMap model) {
+        var context = new Context(Locale.ENGLISH, model.asMap());
+        return templateEngine.process(template, context);
     }
 
     private void copyResource(String classpath, Path destination) throws IOException {

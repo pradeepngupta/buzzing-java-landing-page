@@ -11,6 +11,7 @@ public final class PageModel {
 
     public static void addTo(Model model, SiteProperties site) {
         model.addAttribute("site", site);
+        model.addAttribute("assetBasePath", site.seo().basePath());
         model.addAttribute("bookJson", bookJson(site));
         model.addAttribute("eventJson", eventJson(site));
         model.addAttribute("faqJson", faqJson(site));

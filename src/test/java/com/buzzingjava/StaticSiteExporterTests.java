@@ -24,6 +24,8 @@ class StaticSiteExporterTests {
         assertThat(Files.exists(Path.of("dist/images/og-image.jpg"))).isTrue();
         assertThat(Files.readString(Path.of("dist/index.html")))
             .contains("Buzzing Java", "FAQPage", "css/site.css", "js/site.js",
-                "https://buzzing-java-waitlist-api.onrender.com");
+                "https://buzzing-java-waitlist-api.onrender.com", "<base href=\"./\">");
+        assertThat(Files.readString(Path.of("dist/privacypolicy/index.html")))
+            .contains("<base href=\"../\">", "css/site.css");
     }
 }
