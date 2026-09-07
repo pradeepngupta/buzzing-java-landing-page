@@ -1,6 +1,19 @@
 (() => {
-  const apiBase = (document.body.dataset.apiBase || '').replace(/\/$/, '');
+  const configuredApiBase = document.body.dataset.apiBase || '';
+  const hostname = window.location.hostname.toLowerCase();
+  const apiBase = resolveApiBase(hostname, configuredApiBase);
   const apiUrl = (path) => `${apiBase}${path}`;
+
+  function resolveApiBase(currentHostname, fallback) {
+    if (currentHostname === 'localhost' || currentHostname === '127.0.0.1' || currentHostname === '::1') {
+      return '';
+    }
+    const hostApiBases = {
+      'buzzingjava.com': 'https://api.buzzingjava.com',
+      'www.buzzingjava.com': 'https://api.buzzingjava.com'
+    };
+    return (hostApiBases[currentHostname] || fallback).replace(/\/$/, '');
+  }
   const utmQueryKeys = {
     utm_source: 'utm_source',
     utm_medium: 'utm_medium',

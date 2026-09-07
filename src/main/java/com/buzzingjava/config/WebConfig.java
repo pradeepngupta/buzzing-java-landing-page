@@ -10,7 +10,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebConfig implements WebMvcConfigurer {
     private final String[] allowedOrigins;
 
-    public WebConfig(@Value("${WAITLIST_ALLOWED_ORIGINS:https://pradeepngupta.github.io}") String allowedOrigins) {
+    public WebConfig(@Value("${WAITLIST_ALLOWED_ORIGINS:https://pradeepngupta.github.io,https://buzzingjava.com,https://www.buzzingjava.com}") String allowedOrigins) {
         this.allowedOrigins = Arrays.stream(allowedOrigins.split(","))
                 .map(String::trim)
                 .filter(origin -> !origin.isEmpty())
