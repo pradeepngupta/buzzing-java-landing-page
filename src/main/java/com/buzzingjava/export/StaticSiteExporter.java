@@ -32,10 +32,10 @@ public class StaticSiteExporter implements CommandLineRunner {
         PageModel.addTo(model, site);
         var context = new Context(Locale.ENGLISH, model.asMap());
         Files.writeString(output.resolve("index.html"), templateEngine.process("index", context));
-        Files.createDirectories(output.resolve("privacy-policy"));
-        Files.writeString(output.resolve("privacy-policy/index.html"), templateEngine.process("privacy-policy", context));
-        Files.createDirectories(output.resolve("terms-of-service"));
-        Files.writeString(output.resolve("terms-of-service/index.html"), templateEngine.process("terms-of-service", context));
+        Files.createDirectories(output.resolve("privacypolicy"));
+        Files.writeString(output.resolve("privacypolicy/index.html"), templateEngine.process("privacy-policy", context));
+        Files.createDirectories(output.resolve("termsofservice"));
+        Files.writeString(output.resolve("termsofservice/index.html"), templateEngine.process("terms-of-service", context));
         copyResource("static/css/site.css", output.resolve("css/site.css"));
         copyResource("static/js/site.js", output.resolve("js/site.js"));
         copyResource("static/images/og-image.jpg", output.resolve("images/og-image.jpg"));

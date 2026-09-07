@@ -19,13 +19,13 @@ public class LandingPageController {
         return "index";
     }
 
-    @GetMapping("/privacy-policy")
+    @GetMapping({"/privacy-policy", "/privacy-policy/", "/privacypolicy", "/privacypolicy/"})
     public String privacyPolicy(Model model) {
         PageModel.addTo(model, properties);
         return "privacy-policy";
     }
 
-    @GetMapping("/terms-of-service")
+    @GetMapping({"/terms-of-service", "/terms-of-service/", "/termsofservice", "/termsofservice/"})
     public String termsOfService(Model model) {
         PageModel.addTo(model, properties);
         return "terms-of-service";

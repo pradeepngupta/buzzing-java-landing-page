@@ -24,7 +24,7 @@ buzzing-java:
     genre: "Technology & Engineering"
     language: "English"
   cta:
-    label: "Join the Waitlist"
+    label: "Get the Free Chapter + Launch Price"
     mode: "waitlist"
     link: "#waitlist"
   waitlist:
@@ -49,15 +49,19 @@ buzzing-java:
     title: ""
     description: ""
   credibility:
-    - value: "20+"
-      label: "Years engineering"
-    # TODO: Replace with the current verified newsletter subscriber or LinkedIn follower count.
-    - value: "350+"
-      label: "Java community"
-    - value: "JPMORGAN"
-      label: "Enterprise engineering"
-    - value: "CERTIFIED"
-      label: "Relevant credentials"
+    - value: "Java Since 1.3 → 25"
+      label: ""
+    - value: "40M Events/Day"
+      label: "at Enterprise Scale"
+    - value: |-
+        IBM
+          ↓
+        Cisco
+          ↓
+        JPMorgan
+      label: ""
+    - value: "350+ Members"
+      label: "Leading Java Community"
   teasers:
     - number: "01"
       title: "Longevity is a signal"
