@@ -36,7 +36,7 @@ jobs:
 
       - name: Export static site
         env:
-          WAITLIST_API_BASE: https://buzzing-java-waitlist-api.onrender.com
+          WAITLIST_API_BASE: https://api.buzzingjava.com
         run: >-
           java -jar target/buzzing-java-landing-page-0.1.0-SNAPSHOT.jar
           --spring.profiles.active=export

@@ -1,6 +1,6 @@
 buzzing-java:
   seo:
-    base-path: "/buzzing-java-landing-page/"
-    canonical-url: "https://pradeepngupta.github.io/buzzing-java-landing-page/"
-    og-url: "https://pradeepngupta.github.io/buzzing-java-landing-page/"
-    og-image: "https://pradeepngupta.github.io/buzzing-java-landing-page/images/og-image.jpg"
+    base-path: "/"
+    canonical-url: "https://buzzingjava.com/"
+    og-url: "https://buzzingjava.com/"
+    og-image: "https://buzzingjava.com/images/og-image.jpg"
