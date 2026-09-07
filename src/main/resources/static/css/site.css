@@ -44,7 +44,7 @@
 /* Keep narrow layouts shrinkable when content contains long phrases. */
 img, svg, video, canvas { max-width: 100%; }
 .hero-split > *, .split-section > *, .credibility-grid > *, .waitlist-section > *, .teaser-grid > *, .perk-list > *, .field, fieldset, form { min-width: 0; }
-.credential strong { white-space: normal; overflow-wrap: anywhere; }
+.credential strong { white-space: pre-line; overflow-wrap: anywhere; }
 .contents-parts h3, .contents-parts li, .faq-list summary, .faq-list p, .consent-field span { overflow-wrap: anywhere; }
 .button { max-width: 100%; }
 .countdown-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
