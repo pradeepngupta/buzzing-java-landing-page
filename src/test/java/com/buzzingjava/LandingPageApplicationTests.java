@@ -31,7 +31,9 @@ class LandingPageApplicationTests {
         mockMvc.perform(get("/"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("Buzzing Java")))
-                .andExpect(content().string(org.hamcrest.Matchers.containsString("Join the Waitlist")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("Get the Free Chapter + Launch Price")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("What's Inside")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("Java Since 1.3 → 25")))
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("FAQPage")))
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("\"@type\":\"Place\"")))
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("\"name\":\"Bengaluru, India\"")))
@@ -46,11 +48,17 @@ class LandingPageApplicationTests {
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("Privacy Policy")))
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("Kit and Brevo")))
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("pradeepngupta@gmail.com")));
+            mockMvc.perform(get("/privacypolicy/"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("Privacy Policy")));
             mockMvc.perform(get("/terms-of-service"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("Terms of Service")))
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("Early access")))
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("unsubscribe")));
+            mockMvc.perform(get("/termsofservice/"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("Terms of Service")));
             }
 
     @Test
