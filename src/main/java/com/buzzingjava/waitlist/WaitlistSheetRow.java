@@ -11,4 +11,5 @@ public record WaitlistSheetRow(
         String ip,
         String country,
         String countryCode,
-        String expectations) {}
+        String expectations,
+        String privacyConsent) {}

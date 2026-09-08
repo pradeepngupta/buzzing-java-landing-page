@@ -80,7 +80,7 @@ class LandingPageApplicationTests {
         String request = "{" +
             "\"name\":\"Test Builder\",\"email\":\"builder@example.com\",\"party\":\"Online\"," +
             "\"expectations\":[\"Java's longevity secrets\",\"System design depth\"]," +
-            "\"otherExpectation\":\"\"}";
+            "\"otherExpectation\":\"\",\"privacyConsent\":true}";
         mockMvc.perform(post("/api/waitlist")
                 .contentType("application/json")
                 .content(request))
@@ -91,7 +91,7 @@ class LandingPageApplicationTests {
     @Test
     void waitlistApiAcceptsMissingOptionalExpectations() throws Exception {
         String request = "{" +
-            "\"name\":\"Optional Builder\",\"email\":\"optional@example.com\",\"party\":\"Online\"}";
+            "\"name\":\"Optional Builder\",\"email\":\"optional@example.com\",\"party\":\"Online\",\"privacyConsent\":true}";
         mockMvc.perform(post("/api/waitlist")
                 .contentType("application/json")
                 .content(request))
@@ -112,9 +112,10 @@ class LandingPageApplicationTests {
                 "127.0.0.1",
                 "",
                 "",
-                "Java longevity, AI tooling"));
+                "Java longevity, AI tooling",
+                "true"));
 
-        assertThat(row).hasSize(11);
+            assertThat(row).hasSize(12);
         assertThat((String)row.get(0)).isNotBlank();
         assertThat(row.get(1)).isEqualTo("Ada Lovelace");
         assertThat(row.get(2)).isEqualTo("ada@example.com");
@@ -126,6 +127,7 @@ class LandingPageApplicationTests {
         assertThat(row.get(8)).isEqualTo("");
         assertThat(row.get(9)).isEqualTo("");
         assertThat(row.get(10)).isEqualTo("Java longevity, AI tooling");
+        assertThat(row.get(11)).isEqualTo("true");
     }
 
     @Test

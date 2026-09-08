@@ -42,7 +42,8 @@ public class WaitlistApiController {
                 request.utmSource(),
                 request.utmMedium(),
                 request.utmCampaign(),
-                ip);
+                ip,
+                request.privacyConsent());
         return ResponseEntity.ok(waitlistService.join(requestWithIp));
     }
 

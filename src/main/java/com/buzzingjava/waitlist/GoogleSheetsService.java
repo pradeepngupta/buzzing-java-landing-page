@@ -49,7 +49,7 @@ public class GoogleSheetsService {
     public static List<Object> buildRow(WaitlistSheetRow row) {
         // WARNING: this list order must always match the Google Sheet column order exactly.
         // Omitting any element, even when a value is "missing", silently shifts every subsequent column left.
-        List<Object> values = new java.util.ArrayList<>(11);
+        List<Object> values = new java.util.ArrayList<>(12);
         values.add(normalize(row.timestamp()));
         values.add(normalize(row.name()));
         values.add(normalize(row.email()));
@@ -61,6 +61,7 @@ public class GoogleSheetsService {
         values.add(normalize(row.country()));
         values.add(normalize(row.countryCode()));
         values.add(normalize(row.expectations()));
+        values.add(normalize(row.privacyConsent()));
         return values;
     }
 

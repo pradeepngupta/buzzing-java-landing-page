@@ -85,7 +85,8 @@ public class WaitlistService {
                 ip,
                 country,
                 countryCode,
-                String.join(", ", combinedExpectations));
+                String.join(", ", combinedExpectations),
+                Boolean.toString(request.privacyConsent()));
         googleSheetsService.ifPresent(service -> service.append(sheetRow));
         countCache = new CountCache(0, 0L);
         return new MessageResponse("You are on the list!");
@@ -117,6 +118,9 @@ public class WaitlistService {
         if (request.party() == null || request.party().isBlank()) {
             throw new IllegalArgumentException("Party preference is required.");
         }
+        if (!request.privacyConsent()) {
+            throw new IllegalArgumentException("Consent is required.");
+        }
     }
 
     private record CountCache(int count, long cachedAt) {}
@@ -128,5 +132,5 @@ public class WaitlistService {
     public record WaitlistRequest(String name, String email, String party,
                                   java.util.List<String> expectations, String otherExpectation,
                                   String timestamp, String utmSource, String utmMedium,
-                                  String utmCampaign, String ip) {}
+                                  String utmCampaign, String ip, boolean privacyConsent) {}
 }

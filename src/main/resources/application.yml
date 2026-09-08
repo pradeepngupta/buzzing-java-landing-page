@@ -9,7 +9,7 @@ spring:
 google:
   sheets:
     spreadsheet-id: ${GOOGLE_SHEET_ID:}
-    range: ${GOOGLE_SHEET_RANGE:Waitlist!A:E}
+    range: ${GOOGLE_SHEET_RANGE:Waitlist!A:L}
     email-range: ${GOOGLE_SHEET_EMAIL_RANGE:Waitlist!B:B}
 
 buzzing-java:

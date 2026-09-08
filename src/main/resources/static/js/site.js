@@ -151,6 +151,7 @@
 
     const payload = {
       ...submittedData,
+      privacyConsent: formData.has('privacyConsent'),
       utmSource: readStoredUtmValue('utm_source') || '',
       utmMedium: readStoredUtmValue('utm_medium') || '',
       utmCampaign: readStoredUtmValue('utm_campaign') || ''
