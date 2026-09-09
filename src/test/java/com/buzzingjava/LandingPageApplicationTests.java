@@ -33,6 +33,8 @@ class LandingPageApplicationTests {
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("Buzzing Java")))
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("Get the Free Chapter + Launch Price")))
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("What's Inside")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("Appendices")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("Appendix D: Upgrade Strategy Without Panic")))
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("Java Since 1.3 → 25")))
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("FAQPage")))
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("\"@type\":\"Place\"")))
