@@ -21,6 +21,8 @@ class StaticSiteExporterTests {
         assertThat(Files.exists(Path.of("dist/termsofservice/index.html"))).isTrue();
         assertThat(Files.exists(Path.of("dist/css/site.css"))).isTrue();
         assertThat(Files.exists(Path.of("dist/js/site.js"))).isTrue();
+        assertThat(Files.exists(Path.of("dist/robots.txt"))).isTrue();
+        assertThat(Files.exists(Path.of("dist/sitemap.xml"))).isTrue();
         assertThat(Files.exists(Path.of("dist/images/og-image.jpg"))).isTrue();
         assertThat(Files.readString(Path.of("dist/index.html")))
             .contains("Buzzing Java", "FAQPage", "css/site.css", "js/site.js",

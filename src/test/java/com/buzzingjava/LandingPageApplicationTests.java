@@ -42,6 +42,17 @@ class LandingPageApplicationTests {
     }
 
             @Test
+            void servesIndexingRulesForLandingAndApiHosts() throws Exception {
+            mockMvc.perform(get("/robots.txt").header("Host", "buzzingjava.com"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("Allow: /")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("https://buzzingjava.com/sitemap.xml")));
+            mockMvc.perform(get("/robots.txt").header("Host", "api.buzzingjava.com"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("User-agent: *\nDisallow: /\n"));
+            }
+
+            @Test
             void rendersPrivacyAndTermsPages() throws Exception {
             mockMvc.perform(get("/privacy-policy"))
                 .andExpect(status().isOk())
