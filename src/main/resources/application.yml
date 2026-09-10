@@ -74,7 +74,7 @@ buzzing-java:
       description: "Production systems do not reward fashionable demos. They reward software that keeps its promises under pressure."
     - number: "04"
       title: "AI changes the question"
-      description: "AI can generate code quickly. Buzzing Java asks what still makes generated code worthy of trust."
+      description: "AI can generate code quickly. What it can't generate is a guarantee. Java's memory model, type system, and runtime contracts are the deterministic backstop for code whose origin — human or model — was never verified. Buzzing Java asks what still makes generated code worthy of trust, and answers it."
   perks:
     - title: "Launch date + price"
       description: "Hear first, before the public announcement."
@@ -86,13 +86,13 @@ buzzing-java:
       description: "Be first in line for thoughtful bonuses."
   seo:
     title: "Buzzing Java | Why Java Still Powers Trusted Systems"
-    description: "Discover why Java remains the foundation of trusted enterprise systems in the age of AI. Join the Buzzing Java book launch waitlist."
+    description: "Java's runtime contracts are the check your AI-generated code still has to pass. Discover why three decades of design discipline outlast every code-generation trend. Join the Buzzing Java book launch waitlist."
     canonical-url: "https://localhost:8080/"
     og-url: "https://localhost:8080/"
     base-path: "/"
     og-image: "https://localhost:8080/images/og-image.jpg"
     og-image-type: "image/jpeg"
-    og-image-alt: "Discover why Java remains the foundation of trusted enterprise systems in the age of AI. Join the Buzzing Java book launch waitlist."
+    og-image-alt: "Java's runtime contracts are the check your AI-generated code still has to pass. Discover why three decades of design discipline outlast every code-generation trend. Join the Buzzing Java book launch waitlist."
     og-image-width: 1200
     og-image-height: 630
     og-site-name: "Buzzing Java"
@@ -107,7 +107,7 @@ buzzing-java:
     - question: "Is this an introductory Java book?"
       answer: "No. It is a perspective-driven book about engineering judgment, system trust, and Java's role in production, not a syntax tutorial."
     - question: "Why does Java still matter in the age of AI?"
-      answer: "AI accelerates code creation, but trusted systems still need reliability, maintainability, and operational discipline. Java has decades of evidence in those areas."
+      answer: "AI accelerates how fast code gets written, not how reliable it is. Java's memory model, thread-safety contracts, and type system don't ask whether code came from a human or a model — they enforce the same guarantees either way. That's the argument this book makes, with the JVM internals to back it up."
     - question: "When will Buzzing Java launch?"
       answer: "The planned launch date is December 7, 2026. Join the waitlist for updates."
     - question: "How can I join the waitlist?"
