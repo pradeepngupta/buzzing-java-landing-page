@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="noindex, nofollow">
     <meta name="description" content="Read a sample chapter from Buzzing Java in an interactive book preview.">
-    <title th:text="|${previewTitle} | Buzzing Java|">Read a Sample Chapter | Buzzing Java</title>
+    <title th:text="${previewTitle + ' | Buzzing Java'}">Read a Sample Chapter | Buzzing Java</title>
 
-    <meta property="og:title" th:content="|${previewTitle} | Buzzing Java|">
+    <meta property="og:title" th:content="${previewTitle + ' | Buzzing Java'}">
     <meta property="og:description" content="Read a sample chapter from Buzzing Java in an interactive book preview.">
     <meta property="og:image" th:content="${site.seo.ogImage}">
     <meta property="og:image:alt" th:content="${site.seo.ogImageAlt}">
@@ -17,7 +17,7 @@
     <meta property="og:locale" content="en_US">
     <meta name="theme-color" content="#10251f">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" th:content="|${previewTitle} | Buzzing Java|">
+    <meta name="twitter:title" th:content="${previewTitle + ' | Buzzing Java'}">
     <meta name="twitter:description" content="Read a sample chapter from Buzzing Java in an interactive book preview.">
     <meta name="twitter:image" th:content="${site.seo.ogImage}">
     <meta name="twitter:site" th:content="${site.seo.xName}">
