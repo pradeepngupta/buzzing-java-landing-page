@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <base th:href="${assetBasePath ?: '/'}">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Read a sample chapter from Buzzing Java in a two-page book preview.">
+    <title>Read a Sample Chapter | Buzzing Java</title>
+    <link rel="stylesheet" href="css/site.css">
+</head>
+<body>
+<header class="masthead"><a class="wordmark" href="./" aria-label="Buzzing Java home"><span>BUZZING</span> JAVA</a><span class="edition">A book about durable software</span></header>
+<main class="preview-page wrap" aria-labelledby="preview-title">
+    <div class="preview-intro">
+        <a class="button preview-back" href="./"><span aria-hidden="true">←</span> Back to Buzzing Java</a>
+        <p class="section-index">SAMPLE CHAPTER / 01</p>
+        <h1 id="preview-title">Java’s Enduring Buzz</h1>
+        <p>A two-page preview from <em>Buzzing Java</em>. Turn through the opening pages of the chapter.</p>
+    </div>
+    <section class="preview-reader" data-book-reader tabindex="0" aria-label="Book preview. Use the previous and next buttons or the left and right arrow keys to turn pages.">
+        <div class="reader-stage">
+            <div class="preview-spread" th:each="page, stat : ${previewPages}" th:if="${stat.index % 2 == 0}" th:classappend="${stat.index == 0 ? ' is-active' : ''}">
+                <article class="preview-page-sheet" th:utext="${page.html}"><p>Chapter page</p></article>
+                <article class="preview-page-sheet" th:if="${stat.index + 1 < previewPages.size()}" th:utext="${previewPages[stat.index + 1].html}"><p>Chapter page</p></article>
+                <article class="preview-page-sheet preview-page-sheet-blank" th:if="${stat.index + 1 >= previewPages.size()}" aria-label="Blank page"></article>
+            </div>
+        </div>
+        <div class="reader-controls" aria-label="Book preview controls">
+            <button type="button" data-reader-previous>Previous</button>
+            <span class="reader-status" data-reader-status aria-live="polite">Spread 1 of 6</span>
+            <button type="button" data-reader-next>Next</button>
+        </div>
+    </section>
+</main>
+<footer class="footer wrap"><span class="wordmark"><span>BUZZING</span> JAVA</span><span>Launching <span th:text="${site.book.launchDate}">December 7, 2026</span></span></footer>
+<script src="js/site.js" defer></script>
+</body>
+</html>

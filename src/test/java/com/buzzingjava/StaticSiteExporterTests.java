@@ -29,5 +29,9 @@ class StaticSiteExporterTests {
                 "https://api.buzzingjava.com", "<base href=\"./\">");
         assertThat(Files.readString(Path.of("dist/privacypolicy/index.html")))
             .contains("<base href=\"../\">", "css/site.css");
+        assertThat(Files.exists(Path.of("dist/book-preview/index.html"))).isTrue();
+        assertThat(Files.readString(Path.of("dist/book-preview/index.html")))
+            .contains("Java’s Enduring Buzz", "Spread 1 of 6")
+            .doesNotContain("sample-chapter.md", "sample-chapter-source.md");
     }
 }

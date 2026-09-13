@@ -2,6 +2,7 @@ package com.buzzingjava.export;
 
 import com.buzzingjava.config.SiteProperties;
 import com.buzzingjava.web.PageModel;
+import com.buzzingjava.web.BookPreviewContent;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -18,10 +19,12 @@ import org.thymeleaf.context.Context;
 public class StaticSiteExporter implements CommandLineRunner {
     private final SiteProperties site;
     private final TemplateEngine templateEngine;
+    private final BookPreviewContent bookPreviewContent;
 
-    public StaticSiteExporter(SiteProperties site, TemplateEngine templateEngine) {
+    public StaticSiteExporter(SiteProperties site, TemplateEngine templateEngine, BookPreviewContent bookPreviewContent) {
         this.site = site;
         this.templateEngine = templateEngine;
+        this.bookPreviewContent = bookPreviewContent;
     }
 
     @Override
@@ -33,6 +36,9 @@ public class StaticSiteExporter implements CommandLineRunner {
         model.addAttribute("assetBasePath", "./");
         Files.writeString(output.resolve("index.html"), process("index", model));
         model.addAttribute("assetBasePath", "../");
+        model.addAttribute("previewPages", bookPreviewContent.pages());
+        Files.createDirectories(output.resolve("book-preview"));
+        Files.writeString(output.resolve("book-preview/index.html"), process("book-preview", model));
         Files.createDirectories(output.resolve("privacypolicy"));
         Files.writeString(output.resolve("privacypolicy/index.html"), process("privacy-policy", model));
         Files.createDirectories(output.resolve("termsofservice"));

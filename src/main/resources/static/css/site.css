@@ -47,6 +47,35 @@ img, svg, video, canvas { max-width: 100%; }
 .credential strong { white-space: pre-line; overflow-wrap: anywhere; }
 .contents-parts h3, .contents-parts li, .faq-list summary, .faq-list p, .consent-field span { overflow-wrap: anywhere; }
 .button { max-width: 100%; }
+.preview-link { display: inline-flex; gap: .7rem; margin-top: 1.25rem; border-bottom: 1px solid var(--ink); font-weight: 700; text-decoration: none; }
+.preview-link:hover, .preview-link:focus-visible { color: var(--success); }
+.preview-page { padding-top: clamp(3rem, 8vw, 6rem); padding-bottom: clamp(4rem, 9vw, 8rem); }
+.preview-intro { display: grid; gap: 1.25rem; max-width: 760px; margin-bottom: 2.5rem; }
+.preview-back { justify-self: start; gap: .7rem; }
+.preview-intro h1 { margin: 0; font-size: clamp(2.8rem, 6vw, 5.5rem); }
+.preview-intro p { max-width: 620px; color: #3f4c45; }
+.preview-reader { width: 100%; margin: 0 auto; }
+.reader-stage { position: relative; padding: clamp(.7rem, 2vw, 1.5rem); background: #d9d8c9; box-shadow: var(--shadow); user-select: none; -webkit-user-select: none; }
+.preview-spread { display: none; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; align-items: stretch; min-height: 0; aspect-ratio: 4 / 3; }
+.preview-spread.is-active { display: grid; animation: spread-in .35s ease both; }
+.preview-page-sheet { min-width: 0; min-height: 0; height: 100%; overflow-x: hidden; overflow-y: auto; overflow-wrap: normal; word-wrap: normal; padding: clamp(1rem, 3vw, 3rem); color: #263a31; background: #fffdf6; box-shadow: inset 0 0 0 1px rgba(16, 37, 31, .08); }
+.preview-page-sheet:first-child { border-radius: 2px 0 0 2px; }
+.preview-page-sheet:last-child { border-radius: 0 2px 2px 0; }
+.preview-page-sheet h1, .preview-page-sheet h2, .preview-page-sheet h3 { overflow-wrap: normal; word-break: normal; word-wrap: normal; }
+.preview-page-sheet h1 { margin: 0 0 1.4rem; font-size: clamp(1.5rem, 3vw, 2.7rem); line-height: 1.04; }
+.preview-page-sheet h2 { margin: 0 0 1.4rem; font-size: clamp(1.5rem, 3vw, 2.7rem); }
+.preview-page-sheet h3 { margin: 0 0 .9rem; font-family: var(--serif); font-size: 1.35rem; font-weight: 400; }
+.preview-page-sheet p { margin-bottom: 1.1rem; font-family: var(--serif); font-size: clamp(.82rem, 1.4vw, 1rem); line-height: 1.7; text-align: justify; }
+.preview-page-sheet ul { padding-left: 1.1rem; font-family: var(--serif); font-size: clamp(.78rem, 1.3vw, .95rem); line-height: 1.55; }
+.preview-page-sheet li { margin-bottom: .45rem; text-align: justify; }
+.preview-subtitle { font-style: italic; }
+.page-number { display: block; margin-top: 2rem; color: var(--muted); font: .65rem var(--sans); letter-spacing: .12em; text-align: center; }
+.reader-controls { display: flex; align-items: center; justify-content: center; gap: 1rem; margin-top: 1.3rem; }
+.reader-controls button { min-width: 5.5rem; padding: .65rem .85rem; border: 1px solid var(--ink); border-radius: var(--radius); color: var(--ink); background: transparent; font: inherit; font-weight: 700; cursor: pointer; }
+.reader-controls button:hover:not(:disabled), .reader-controls button:focus-visible { color: var(--paper); background: var(--ink); }
+.reader-controls button:disabled { cursor: not-allowed; opacity: .4; }
+.reader-status { min-width: 6rem; color: var(--muted); font-size: .75rem; text-align: center; }
+@keyframes spread-in { from { opacity: 0; transform: translateX(12px); } to { opacity: 1; transform: translateX(0); } }
 .countdown-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 .countdown-grid div { min-width: 0; }
 .choice-grid span, .pill-grid span { max-width: 100%; overflow-wrap: anywhere; }
@@ -57,6 +86,13 @@ img, svg, video, canvas { max-width: 100%; }
 	.credibility-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 	.form-row { grid-template-columns: minmax(0, 1fr); }
 	.sticky-cta { max-width: calc(100% - 2rem); }
+	.preview-page-sheet { padding: 1rem .8rem; }
+	.preview-page-sheet p { font-size: .76rem; line-height: 1.55; }
+	.preview-page-sheet h2 { font-size: 1.35rem; }
+	.preview-reader { width: 100%; }
+	.preview-spread { grid-template-columns: 1fr; aspect-ratio: 2 / 3; }
+	.preview-spread .preview-page-sheet { display: none; }
+	.preview-spread .preview-page-sheet.mobile-active { display: block; }
 }
 
 @media (max-width: 360px) {

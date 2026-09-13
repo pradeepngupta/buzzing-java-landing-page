@@ -43,6 +43,16 @@ class LandingPageApplicationTests {
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("Be there when the story starts buzzing.")));
     }
 
+    @Test
+    void rendersBookPreviewReader() throws Exception {
+        mockMvc.perform(get("/book-preview"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("Java’s Enduring Buzz")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("data-book-reader")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("data-reader-next")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("Spread 1 of 6")));
+    }
+
             @Test
             void servesIndexingRulesForLandingAndApiHosts() throws Exception {
             mockMvc.perform(get("/robots.txt").header("Host", "buzzingjava.com"))

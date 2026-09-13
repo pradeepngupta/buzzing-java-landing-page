@@ -43,6 +43,40 @@
 
   captureUtmParameters();
 
+  const reader = document.querySelector('[data-book-reader]');
+  if (reader) {
+    const spreads = [...reader.querySelectorAll('.preview-spread')];
+    const pages = [...reader.querySelectorAll('.preview-page-sheet:not(.preview-page-sheet-blank)')];
+    const previous = reader.querySelector('[data-reader-previous]');
+    const next = reader.querySelector('[data-reader-next]');
+    const status = reader.querySelector('[data-reader-status]');
+    const mobileQuery = window.matchMedia('(max-width: 699px)');
+    let currentView = 0;
+    const showView = (index) => {
+      const mobile = mobileQuery.matches;
+      const views = mobile ? pages : spreads;
+      currentView = Math.max(0, Math.min(index, views.length - 1));
+      spreads.forEach((spread, spreadIndex) => spread.classList.toggle('is-active', mobile
+        ? Math.floor(currentView / 2) === spreadIndex
+        : spreadIndex === currentView));
+      pages.forEach((page, pageIndex) => page.classList.toggle('mobile-active', mobile && pageIndex === currentView));
+      previous.disabled = currentView === 0;
+      next.disabled = currentView === views.length - 1;
+      status.textContent = mobile
+        ? `Page ${currentView + 1} of ${pages.length}`
+        : `Spread ${currentView + 1} of ${spreads.length}`;
+    };
+    previous.addEventListener('click', () => showView(currentView - 1));
+    next.addEventListener('click', () => showView(currentView + 1));
+    reader.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowLeft') showView(currentView - 1);
+      if (event.key === 'ArrowRight') showView(currentView + 1);
+    });
+    mobileQuery.addEventListener('change', () => showView(currentView));
+    ['copy', 'cut', 'contextmenu', 'dragstart'].forEach((eventName) => reader.addEventListener(eventName, (event) => event.preventDefault()));
+    showView(0);
+  }
+
   const countdown = document.querySelector('.countdown');
   if (countdown) {
     const fallbackLaunchDate = '2026-12-07T00:00:00+05:30';
