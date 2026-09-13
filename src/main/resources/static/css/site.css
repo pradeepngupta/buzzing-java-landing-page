@@ -68,6 +68,8 @@ img, svg, video, canvas { max-width: 100%; }
 .preview-page-sheet p { margin-bottom: 1.1rem; font-family: var(--serif); font-size: clamp(.82rem, 1.4vw, 1rem); line-height: 1.7; text-align: justify; }
 .preview-page-sheet ul { padding-left: 1.1rem; font-family: var(--serif); font-size: clamp(.78rem, 1.3vw, .95rem); line-height: 1.55; }
 .preview-page-sheet li { margin-bottom: .45rem; text-align: justify; }
+.preview-page-sheet pre { margin: 1.25rem 0 1.4rem; overflow-x: auto; padding: 1rem 1.1rem; border: 1px solid rgba(16, 37, 31, .14); border-left: 3px solid #b9784a; color: #263a31; background: #f1eee3; text-align: left; white-space: pre; }
+.preview-page-sheet pre code { font: .78rem/1.55 "SF Mono", "Fira Code", Consolas, monospace; text-align: left; }
 .preview-subtitle { font-style: italic; }
 .page-number { display: block; margin-top: 2rem; color: var(--muted); font: .65rem var(--sans); letter-spacing: .12em; text-align: center; }
 .reader-controls { display: flex; align-items: center; justify-content: center; gap: 1rem; margin-top: 1.3rem; }

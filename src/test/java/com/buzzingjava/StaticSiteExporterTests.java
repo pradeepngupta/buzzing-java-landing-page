@@ -33,5 +33,9 @@ class StaticSiteExporterTests {
         assertThat(Files.readString(Path.of("dist/book-preview/index.html")))
             .contains("Java’s Enduring Buzz", "Spread 1 of 6")
             .doesNotContain("sample-chapter.md", "sample-chapter-source.md");
+        assertThat(Files.exists(Path.of("dist/book-preview/change-is-the-only-constant/index.html"))).isTrue();
+        assertThat(Files.readString(Path.of("dist/book-preview/change-is-the-only-constant/index.html")))
+            .contains("noindex, nofollow", "Change Is the Only Constant", "<pre><code>", "FeatureFlags", "Spread 1 of 11")
+            .doesNotContain("sample-chapter.md", "sample-chapter-source.md");
     }
 }

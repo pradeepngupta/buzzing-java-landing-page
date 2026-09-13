@@ -47,10 +47,24 @@ class LandingPageApplicationTests {
     void rendersBookPreviewReader() throws Exception {
         mockMvc.perform(get("/book-preview"))
                 .andExpect(status().isOk())
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("noindex, nofollow")))
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("Java’s Enduring Buzz")))
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("data-book-reader")))
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("data-reader-next")))
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("Spread 1 of 6")));
+    }
+
+    @Test
+    void rendersChangeIsTheOnlyConstantPreview() throws Exception {
+        mockMvc.perform(get("/book-preview/change-is-the-only-constant"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("noindex, nofollow")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("SAMPLE CHAPTER / 02")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("Change Is the Only Constant")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("Stability is the ability to absorb change without breaking.")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("<pre><code>")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("    private final Map&lt;String, Boolean&gt; flags")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("Spread 1 of 11")));
     }
 
             @Test

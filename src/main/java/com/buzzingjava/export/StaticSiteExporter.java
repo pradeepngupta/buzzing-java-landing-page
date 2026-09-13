@@ -37,8 +37,16 @@ public class StaticSiteExporter implements CommandLineRunner {
         Files.writeString(output.resolve("index.html"), process("index", model));
         model.addAttribute("assetBasePath", "../");
         model.addAttribute("previewPages", bookPreviewContent.pages());
+        model.addAttribute("previewLabel", "SAMPLE CHAPTER / 01");
+        model.addAttribute("previewTitle", "Java’s Enduring Buzz");
+        model.addAttribute("previewDescription", "A two-page preview from <em>Buzzing Java</em>. Turn through the opening pages of the chapter.");
         Files.createDirectories(output.resolve("book-preview"));
         Files.writeString(output.resolve("book-preview/index.html"), process("book-preview", model));
+        model.addAttribute("previewPages", bookPreviewContent.pages("content/change-is-the-only-constant.md", 22, Integer.MAX_VALUE));
+        model.addAttribute("previewLabel", "SAMPLE CHAPTER / 02");
+        model.addAttribute("previewTitle", "Change Is the Only Constant");
+        Files.createDirectories(output.resolve("book-preview/change-is-the-only-constant"));
+        Files.writeString(output.resolve("book-preview/change-is-the-only-constant/index.html"), process("book-preview", model));
         Files.createDirectories(output.resolve("privacypolicy"));
         Files.writeString(output.resolve("privacypolicy/index.html"), process("privacy-policy", model));
         Files.createDirectories(output.resolve("termsofservice"));

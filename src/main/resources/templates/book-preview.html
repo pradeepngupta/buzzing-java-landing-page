@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <base th:href="${assetBasePath ?: '/'}">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex, nofollow">
     <meta name="description" content="Read a sample chapter from Buzzing Java in a two-page book preview.">
     <title>Read a Sample Chapter | Buzzing Java</title>
     <link rel="stylesheet" href="css/site.css">
@@ -13,9 +14,9 @@
 <main class="preview-page wrap" aria-labelledby="preview-title">
     <div class="preview-intro">
         <a class="button preview-back" href="./"><span aria-hidden="true">←</span> Back to Buzzing Java</a>
-        <p class="section-index">SAMPLE CHAPTER / 01</p>
-        <h1 id="preview-title">Java’s Enduring Buzz</h1>
-        <p>A two-page preview from <em>Buzzing Java</em>. Turn through the opening pages of the chapter.</p>
+        <p class="section-index" th:text="${previewLabel}">SAMPLE CHAPTER / 01</p>
+        <h1 id="preview-title" th:text="${previewTitle}">Java’s Enduring Buzz</h1>
+        <p th:utext="${previewDescription}">A two-page preview from <em>Buzzing Java</em>. Turn through the opening pages of the chapter.</p>
     </div>
     <section class="preview-reader" data-book-reader tabindex="0" aria-label="Book preview. Use the previous and next buttons or the left and right arrow keys to turn pages.">
         <div class="reader-stage">
@@ -27,7 +28,7 @@
         </div>
         <div class="reader-controls" aria-label="Book preview controls">
             <button type="button" data-reader-previous>Previous</button>
-            <span class="reader-status" data-reader-status aria-live="polite">Spread 1 of 6</span>
+            <span class="reader-status" data-reader-status aria-live="polite" th:text="|Spread 1 of ${(previewPages.size() + 1) / 2}|">Spread 1 of 6</span>
             <button type="button" data-reader-next>Next</button>
         </div>
     </section>

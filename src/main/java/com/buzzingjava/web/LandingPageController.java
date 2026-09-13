@@ -26,6 +26,19 @@ public class LandingPageController {
     public String bookPreview(Model model) throws IOException {
         PageModel.addTo(model, properties);
         model.addAttribute("previewPages", bookPreviewContent.pages());
+        model.addAttribute("previewLabel", "SAMPLE CHAPTER / 01");
+        model.addAttribute("previewTitle", "Java’s Enduring Buzz");
+        model.addAttribute("previewDescription", "A two-page preview from <em>Buzzing Java</em>. Turn through the opening pages of the chapter.");
+        return "book-preview";
+    }
+
+    @GetMapping({"/book-preview/change-is-the-only-constant", "/book-preview/change-is-the-only-constant/"})
+    public String changeIsTheOnlyConstantPreview(Model model) throws IOException {
+        PageModel.addTo(model, properties);
+        model.addAttribute("previewPages", bookPreviewContent.pages("content/change-is-the-only-constant.md", 22, Integer.MAX_VALUE));
+        model.addAttribute("previewLabel", "SAMPLE CHAPTER / 02");
+        model.addAttribute("previewTitle", "Change Is the Only Constant");
+        model.addAttribute("previewDescription", "A full sample chapter from <em>Buzzing Java</em>. Turn through the pages of the chapter.");
         return "book-preview";
     }
 
