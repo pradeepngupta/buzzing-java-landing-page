@@ -5,15 +5,37 @@
     <base th:href="${assetBasePath ?: '/'}">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="noindex, nofollow">
-    <meta name="description" content="Read a sample chapter from Buzzing Java in a two-page book preview.">
-    <title>Read a Sample Chapter | Buzzing Java</title>
+    <meta name="description" content="Read a sample chapter from Buzzing Java in an interactive book preview.">
+    <title th:text="|${previewTitle} | Buzzing Java|">Read a Sample Chapter | Buzzing Java</title>
+
+    <meta property="og:title" th:content="|${previewTitle} | Buzzing Java|">
+    <meta property="og:description" content="Read a sample chapter from Buzzing Java in an interactive book preview.">
+    <meta property="og:image" th:content="${site.seo.ogImage}">
+    <meta property="og:image:alt" th:content="${site.seo.ogImageAlt}">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" th:content="${site.seo.ogSiteName}">
+    <meta property="og:locale" content="en_US">
+    <meta name="theme-color" content="#10251f">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" th:content="|${previewTitle} | Buzzing Java|">
+    <meta name="twitter:description" content="Read a sample chapter from Buzzing Java in an interactive book preview.">
+    <meta name="twitter:image" th:content="${site.seo.ogImage}">
+    <meta name="twitter:site" th:content="${site.seo.xName}">
+    <meta name="author" th:content="${site.author.name}">
+
+    <link rel="icon" type="image/png" href="assets/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="shortcut icon" href="assets/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+    <meta name="apple-mobile-web-app-title" content="buzzingjava.com">
+    <link rel="manifest" href="assets/site.webmanifest">
     <link rel="stylesheet" href="css/site.css">
 </head>
 <body>
 <header class="masthead"><a class="wordmark" href="./" aria-label="Buzzing Java home"><span>BUZZING</span> JAVA</a><span class="edition">A book about durable software</span></header>
 <main class="preview-page wrap" aria-labelledby="preview-title">
     <div class="preview-intro">
-        <a class="button preview-back" href="./"><span aria-hidden="true">←</span> Back to Buzzing Java</a>
+        <a class="button preview-back" th:href="${assetBasePath ?: '/'}"><span aria-hidden="true">←</span> Back to Buzzing Java</a>
         <p class="section-index" th:text="${previewLabel}">SAMPLE CHAPTER / 01</p>
         <h1 id="preview-title" th:text="${previewTitle}">Java’s Enduring Buzz</h1>
         <p th:utext="${previewDescription}">A two-page preview from <em>Buzzing Java</em>. Turn through the opening pages of the chapter.</p>
