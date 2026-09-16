@@ -150,6 +150,15 @@
       success.hidden = true;
     } catch (error) {
       console.error('Waitlist join request failed:', error);
+      if (typeof umami !== 'undefined' && typeof umami.track === 'function') {
+        try {
+          umami.track('waitlist_signup_failed', {
+            reason: error instanceof Error ? error.message : 'unknown_error'
+          });
+        } catch (trackingError) {
+          console.warn('Unable to track waitlist signup failure:', trackingError);
+        }
+      }
       success.classList.add('form-error');
       success.innerHTML = '<strong>We could not join you to the list.</strong><span>Please try again in a moment.</span>';
       success.hidden = false;

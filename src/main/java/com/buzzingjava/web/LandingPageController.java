@@ -42,6 +42,13 @@ public class LandingPageController {
         return "book-preview";
     }
 
+    @GetMapping({"/sample-chapter-2", "/sample-chapter-2/"})
+    public String sampleChapterTwoRedirect(Model model) {
+        PageModel.addTo(model, properties);
+        model.addAttribute("redirectTarget", "/book-preview/change-is-the-only-constant");
+        return "sample-chapter-2-redirect";
+    }
+
     @GetMapping({"/privacy-policy", "/privacy-policy/", "/privacypolicy", "/privacypolicy/"})
     public String privacyPolicy(Model model) {
         PageModel.addTo(model, properties);

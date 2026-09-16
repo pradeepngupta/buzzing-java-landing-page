@@ -33,6 +33,7 @@ class LandingPageApplicationTests {
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("Buzzing Java")))
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("Get the Free Chapter + Launch Price")))
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("What's Inside")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("sample_chapter_1_click")))
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("Appendices")))
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("Appendix D: Upgrade Strategy Without Panic")))
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("Java Since 1.3 → 25")))
@@ -65,6 +66,14 @@ class LandingPageApplicationTests {
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("<pre><code>")))
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("    private final Map&lt;String, Boolean&gt; flags")))
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("Spread 1 of 11")));
+    }
+
+    @Test
+    void rendersSampleChapterTwoTrackingRedirect() throws Exception {
+        mockMvc.perform(get("/sample-chapter-2"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("sample_chapter_2_visit")))
+            .andExpect(content().string(org.hamcrest.Matchers.containsString("change-is-the-only-constant")));
     }
 
             @Test

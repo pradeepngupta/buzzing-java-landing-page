@@ -48,6 +48,9 @@ public class StaticSiteExporter implements CommandLineRunner {
         model.addAttribute("previewTitle", "Change Is the Only Constant");
         Files.createDirectories(output.resolve("book-preview/change-is-the-only-constant"));
         Files.writeString(output.resolve("book-preview/change-is-the-only-constant/index.html"), process("book-preview", model));
+        model.addAttribute("redirectTarget", "/book-preview/change-is-the-only-constant");
+        Files.createDirectories(output.resolve("sample-chapter-2"));
+        Files.writeString(output.resolve("sample-chapter-2/index.html"), process("sample-chapter-2-redirect", model));
         model.addAttribute("assetBasePath", "../");
         Files.createDirectories(output.resolve("privacypolicy"));
         Files.writeString(output.resolve("privacypolicy/index.html"), process("privacy-policy", model));

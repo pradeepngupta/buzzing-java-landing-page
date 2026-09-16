@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Opening Sample Chapter 2 | Buzzing Java</title>
+    <script defer src="https://analytics.buzzingjava.com/script.js" data-website-id="504a1e08-2ddc-4d34-b7e7-f2ae6ef1af82"></script>
+</head>
+<body>
+<p>Opening Sample Chapter 2...</p>
+<script th:inline="javascript">
+    window.addEventListener('load', function () {
+        if (typeof umami !== 'undefined' && typeof umami.track === 'function') {
+            umami.track('sample_chapter_2_visit');
+        }
+        window.setTimeout(function () {
+            window.location.replace(/*[[${redirectTarget}]]*/ '/book-preview/change-is-the-only-constant');
+        }, 500);
+    });
+</script>
+</body>
+</html>
