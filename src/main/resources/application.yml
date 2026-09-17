@@ -1,10 +1,20 @@
 spring:
   application:
     name: buzzing-java-landing-page
-  server:
-    port: ${PORT:8080}
   thymeleaf:
     cache: false
+
+server:
+  port: ${PORT:8080}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: never
 
 google:
   sheets:

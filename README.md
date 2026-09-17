@@ -16,6 +16,8 @@ Open `http://localhost:8080`. Run the tests with:
 mvn test
 ```
 
+The application health endpoint is available at `http://localhost:8080/actuator/health` locally and at `https://api.buzzingjava.com/actuator/health` in production. It returns `{"status":"UP"}` when the application is healthy.
+
 ## Generate static HTML
 
 Build the application, then run the export profile as a non-web process:
@@ -51,6 +53,7 @@ All page content is in `src/main/resources/application.yml`, bound to the typed 
 - Launch event schema is controlled by `launch-event.enabled`; unknown location data is intentionally omitted.
 - Local Spring Boot pages use the same-origin API by default. The static export calls the API custom domain when `WAITLIST_API_BASE` is set (the GitHub Actions workflow sets it to `https://api.buzzingjava.com`; Render hosts the service behind that domain).
 - Configure Render's `WAITLIST_ALLOWED_ORIGINS` environment variable with a comma-separated list of allowed site origins. The default allows `https://pradeepngupta.github.io`, `https://buzzingjava.com`, and `https://www.buzzingjava.com`.
+- Actuator exposes only the health endpoint, with component details hidden. Render's free web service can still spin down after inactivity; an in-process scheduled ping cannot prevent that because the process is suspended. Use an external uptime monitor or Render's always-on instance option when continuous availability is required.
 
 ## Architecture and future work
 

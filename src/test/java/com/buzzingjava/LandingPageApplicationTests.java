@@ -27,6 +27,14 @@ class LandingPageApplicationTests {
     @Autowired SiteProperties site;
 
     @Test
+    void reportsApplicationHealth() throws Exception {
+        mockMvc.perform(get("/actuator/health"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value("UP"))
+                .andExpect(jsonPath("$.components").doesNotExist());
+    }
+
+    @Test
     void rendersLandingPageAndStructuredData() throws Exception {
         mockMvc.perform(get("/"))
                 .andExpect(status().isOk())
