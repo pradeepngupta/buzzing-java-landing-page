@@ -29,6 +29,10 @@ public class LandingPageController {
         model.addAttribute("previewLabel", "SAMPLE CHAPTER / 01");
         model.addAttribute("previewTitle", "Java’s Enduring Buzz");
         model.addAttribute("previewDescription", "A two-page preview from <em>Buzzing Java</em>. Turn through the opening pages of the chapter.");
+        model.addAttribute("previewRobots", "index, follow");
+        model.addAttribute("previewSeoTitle", "Buzzing Java: Free Sample Chapter on Why Java Endures");
+        model.addAttribute("previewSeoDescription", "Read the free sample chapter of Buzzing Java: why Java's 11 buzzwords are engineering contracts that make software last. Launching December 7, 2026.");
+        model.addAttribute("previewCanonicalUrl", "https://buzzingjava.com/book-preview/");
         return "book-preview";
     }
 
@@ -39,6 +43,7 @@ public class LandingPageController {
         model.addAttribute("previewLabel", "SAMPLE CHAPTER / 02");
         model.addAttribute("previewTitle", "Change Is the Only Constant");
         model.addAttribute("previewDescription", "A full sample chapter from <em>Buzzing Java</em>. Turn through the pages of the chapter.");
+        model.addAttribute("previewRobots", "noindex, nofollow");
         return "book-preview";
     }
 

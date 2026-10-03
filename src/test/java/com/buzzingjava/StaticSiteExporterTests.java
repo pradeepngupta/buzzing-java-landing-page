@@ -31,12 +31,19 @@ class StaticSiteExporterTests {
             .contains("<base href=\"../\">", "css/site.css");
         assertThat(Files.exists(Path.of("dist/book-preview/index.html"))).isTrue();
         assertThat(Files.readString(Path.of("dist/book-preview/index.html")))
-            .contains("Java’s Enduring Buzz", "Spread 1 of 6")
+            .contains("Java’s Enduring Buzz", "Spread 1 of 6", "name=\"robots\" content=\"index, follow\"",
+                "rel=\"canonical\" href=\"https://buzzingjava.com/book-preview/\"",
+                "Buzzing Java: Free Sample Chapter on Why Java Endures",
+                "Read the free sample chapter of Buzzing Java: why Java&#39;s 11 buzzwords are engineering contracts that make software last. Launching December 7, 2026.")
+            .doesNotContain("noindex")
             .doesNotContain("sample-chapter.md", "sample-chapter-source.md");
         assertThat(Files.exists(Path.of("dist/book-preview/change-is-the-only-constant/index.html"))).isTrue();
         assertThat(Files.readString(Path.of("dist/book-preview/change-is-the-only-constant/index.html")))
             .contains("noindex, nofollow", "Change Is the Only Constant", "<pre><code>", "FeatureFlags", "Spread 1 of 11")
             .doesNotContain("sample-chapter.md", "sample-chapter-source.md");
+        assertThat(Files.readString(Path.of("dist/sitemap.xml")))
+            .contains("https://buzzingjava.com/book-preview/")
+            .doesNotContain("change-is-the-only-constant", "sample-chapter-2", "analytics.buzzingjava.com");
         assertThat(Files.exists(Path.of("dist/sample-chapter-2/index.html"))).isTrue();
         assertThat(Files.readString(Path.of("dist/sample-chapter-2/index.html")))
             .contains("sample_chapter_2_visit", "change-is-the-only-constant");
