@@ -68,7 +68,9 @@ public class StaticSiteExporter implements CommandLineRunner {
         copyResource("static/js/site.js", output.resolve("js/site.js"));
         copyResource("static/images/og-image.jpg", output.resolve("images/og-image.jpg"));
         copyResource("static/images/author-photo.jpg", output.resolve("images/author-photo.jpg"));
+        copyResource("static/images/author-photo-192.webp", output.resolve("images/author-photo-192.webp"));
         copyResource("static/images/book-cover-hero.webp", output.resolve("images/book-cover-hero.webp"));
+        copyResource("static/images/book-cover-hero-700.webp", output.resolve("images/book-cover-hero-700.webp"));
         copyResource("static/assets/apple-touch-icon.png", output.resolve("assets/apple-touch-icon.png"));
         copyResource("static/assets/favicon-96x96.png", output.resolve("assets/favicon-96x96.png"));
         copyResource("static/assets/favicon.svg", output.resolve("assets/favicon.svg"));

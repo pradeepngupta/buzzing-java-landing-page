@@ -24,9 +24,14 @@ class StaticSiteExporterTests {
         assertThat(Files.exists(Path.of("dist/robots.txt"))).isTrue();
         assertThat(Files.exists(Path.of("dist/sitemap.xml"))).isTrue();
         assertThat(Files.exists(Path.of("dist/images/og-image.jpg"))).isTrue();
+        assertThat(Files.exists(Path.of("dist/images/author-photo-192.webp"))).isTrue();
+        assertThat(Files.exists(Path.of("dist/images/book-cover-hero-700.webp"))).isTrue();
         assertThat(Files.readString(Path.of("dist/index.html")))
             .contains("Buzzing Java", "FAQPage", "css/site.css", "js/site.js",
-                "https://api.buzzingjava.com", "<base href=\"./\">");
+                "https://api.buzzingjava.com", "<base href=\"./\">",
+                "book-cover-hero-700.webp 700w", "loading=\"lazy\" decoding=\"async\"",
+                "author-photo-192.webp", "width=\"96\" height=\"96\"")
+            .doesNotContain("data-book-reader");
         assertThat(Files.readString(Path.of("dist/privacypolicy/index.html")))
             .contains("<base href=\"../\">", "css/site.css");
         assertThat(Files.exists(Path.of("dist/book-preview/index.html"))).isTrue();
