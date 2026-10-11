@@ -18,6 +18,7 @@ import org.springframework.context.annotation.Profile;
 @Profile("!test & !export")
 public class GoogleSheetsConfig {
     private static final String SHEETS_SCOPE = "https://www.googleapis.com/auth/spreadsheets";
+    private static final int HTTP_TIMEOUT_MILLIS = 10_000;
 
     @Bean
     public GoogleCredentials googleCredentials() throws IOException {
@@ -45,7 +46,13 @@ public class GoogleSheetsConfig {
 
     @Bean
     public Sheets googleSheets(GoogleCredentials credentials) throws Exception {
-        HttpRequestInitializer requestInitializer = new com.google.auth.http.HttpCredentialsAdapter(credentials);
+        HttpRequestInitializer credentialsInitializer =
+                new com.google.auth.http.HttpCredentialsAdapter(credentials);
+        HttpRequestInitializer requestInitializer = request -> {
+            credentialsInitializer.initialize(request);
+            request.setConnectTimeout(HTTP_TIMEOUT_MILLIS);
+            request.setReadTimeout(HTTP_TIMEOUT_MILLIS);
+        };
         return new Sheets.Builder(
                         GoogleNetHttpTransport.newTrustedTransport(),
                         GsonFactory.getDefaultInstance(),

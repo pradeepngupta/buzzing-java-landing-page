@@ -1,9 +1,14 @@
 package com.buzzingjava.waitlist;
 
 import com.buzzingjava.config.SiteProperties;
+import jakarta.annotation.PostConstruct;
 import java.time.Instant;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
+import java.util.Set;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Pattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,12 +16,11 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class WaitlistService {
-    private static final long COUNT_CACHE_TTL_MILLIS = 60_000L;
     private static final Pattern EMAIL_PATTERN = Pattern.compile("^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$");
     private static final Logger LOGGER = LoggerFactory.getLogger(WaitlistService.class);
 
     private final Optional<GoogleSheetsService> googleSheetsService;
-    private volatile CountCache countCache = new CountCache(0, 0L);
+    private final Set<String> accepted = ConcurrentHashMap.newKeySet();
 
     public WaitlistService(
             SiteProperties site,
@@ -24,31 +28,42 @@ public class WaitlistService {
         this.googleSheetsService = googleSheetsService;
     }
 
+    @PostConstruct
+    void loadAcceptedEmails() {
+        if (googleSheetsService.isEmpty()) {
+            return;
+        }
+
+        GoogleSheetsService sheetsService = googleSheetsService.get();
+        if (!sheetsService.isConfigured()) {
+            LOGGER.warn("Google Sheets is not configured; starting with an empty waitlist email set.");
+            return;
+        }
+
+        List<String> emails = sheetsService.getEmails();
+        emails.stream()
+                .skip(1)
+                .map(WaitlistService::emailKey)
+                .filter(email -> !email.isEmpty())
+                .forEach(accepted::add);
+        LOGGER.info("Loaded {} existing waitlist emails from Google Sheets.", accepted.size());
+    }
+
     public CountResponse currentCount() {
-        CountCache cached = countCache;
-        long now = System.currentTimeMillis();
-        if (now - cached.cachedAt() < COUNT_CACHE_TTL_MILLIS) {
-            return new CountResponse(cached.count());
-        }
-        synchronized (this) {
-            cached = countCache;
-            now = System.currentTimeMillis();
-            if (now - cached.cachedAt() >= COUNT_CACHE_TTL_MILLIS) {
-                int count = readSignupCount();
-                countCache = new CountCache(count, now);
-                cached = countCache;
-            }
-        }
-        return new CountResponse(cached.count());
+        return new CountResponse(googleSheetsService.isPresent() ? accepted.size() : 0);
     }
 
     public MessageResponse join(WaitlistRequest request) {
+        String requestId = UUID.randomUUID().toString();
         validate(request);
         String email = request.email().trim();
-        if (googleSheetsService.isPresent() && googleSheetsService.get().getEmails().stream()
-                .skip(1)
-                .map(String::trim)
-                .anyMatch(existing -> existing.equalsIgnoreCase(email))) {
+        String key = emailKey(email);
+        String ip = request.ip() == null ? "" : request.ip().trim();
+        LOGGER.info("Handling waitlist join request id={} email={} ip={} submittedAt={}",
+                requestId, email, ip, request.timestamp());
+        if (!accepted.add(key)) {
+            LOGGER.info("Waitlist join request id={} email={} is already on the list",
+                    requestId, email);
             return new MessageResponse("You are on the list!");
         }
 
@@ -70,7 +85,6 @@ public class WaitlistService {
         String utmSource = request.utmSource() == null ? "" : request.utmSource().trim();
         String utmMedium = request.utmMedium() == null ? "" : request.utmMedium().trim();
         String utmCampaign = request.utmCampaign() == null ? "" : request.utmCampaign().trim();
-        String ip = request.ip() == null ? "" : request.ip().trim();
         String country = "";
         String countryCode = "";
 
@@ -87,22 +101,26 @@ public class WaitlistService {
                 countryCode,
                 String.join(", ", combinedExpectations),
                 Boolean.toString(request.privacyConsent()));
-        googleSheetsService.ifPresent(service -> service.append(sheetRow));
-        countCache = new CountCache(0, 0L);
+        try {
+            googleSheetsService.ifPresentOrElse(
+                    service -> {
+                        LOGGER.info("Appending waitlist join request id={} email={} to Google Sheets",
+                                requestId, email);
+                        service.append(sheetRow);
+                        LOGGER.info("Appended waitlist join request id={} email={} to Google Sheets",
+                                requestId, email);
+                    },
+                    () -> LOGGER.warn("Waitlist join request id={} email={} was not saved; "
+                            + "Google Sheets service is unavailable", requestId, email));
+        } catch (RuntimeException exception) {
+            accepted.remove(key);
+            throw exception;
+        }
         return new MessageResponse("You are on the list!");
     }
 
-    private int readSignupCount() {
-        try {
-            return (int) googleSheetsService.map(GoogleSheetsService::getEmails)
-                    .orElse(List.of()).stream()
-                    .skip(1)
-                    .filter(email -> !email.trim().isEmpty())
-                    .count();
-        } catch (RuntimeException exception) {
-            LOGGER.error("Unable to read the waitlist count from Google Sheets; using 0.", exception);
-            return 0;
-        }
+    private static String emailKey(String email) {
+        return email == null ? "" : email.trim().toLowerCase(Locale.ROOT);
     }
 
     private void validate(WaitlistRequest request) {
@@ -122,8 +140,6 @@ public class WaitlistService {
             throw new IllegalArgumentException("Consent is required.");
         }
     }
-
-    private record CountCache(int count, long cachedAt) {}
 
     public record CountResponse(int count) {}
 
