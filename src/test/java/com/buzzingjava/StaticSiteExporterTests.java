@@ -29,8 +29,11 @@ class StaticSiteExporterTests {
         assertThat(Files.readString(Path.of("dist/index.html")))
             .contains("Buzzing Java", "FAQPage", "css/site.css", "js/site.js",
                 "https://api.buzzingjava.com", "<base href=\"./\">",
+                "eyebrow\">Coming Soon", "countdown-label\">Coming Soon</p>",
+                "launch-state\">Coming Soon. Join the waitlist for updates</p>",
                 "book-cover-hero-700.webp 700w", "loading=\"lazy\" decoding=\"async\"",
                 "author-photo-192.webp", "width=\"96\" height=\"96\"")
+            .doesNotContain("2026-12-07", "datePublished", "\"@type\":\"Event\"")
             .doesNotContain("data-book-reader");
         assertThat(Files.readString(Path.of("dist/privacypolicy/index.html")))
             .contains("<base href=\"../\">", "css/site.css");
@@ -39,7 +42,7 @@ class StaticSiteExporterTests {
             .contains("Java’s Enduring Buzz", "Spread 1 of 6", "name=\"robots\" content=\"index, follow\"",
                 "rel=\"canonical\" href=\"https://buzzingjava.com/book-preview/\"",
                 "Buzzing Java: Free Sample Chapter on Why Java Endures",
-                "Read the free sample chapter of Buzzing Java: why Java&#39;s 11 buzzwords are engineering contracts that make software last. Launching December 7, 2026.")
+                "Read the free sample chapter of Buzzing Java: why Java&#39;s 11 buzzwords are engineering contracts that make software last. Coming Soon.")
             .doesNotContain("noindex")
             .doesNotContain("sample-chapter.md", "sample-chapter-source.md");
         assertThat(Files.exists(Path.of("dist/book-preview/change-is-the-only-constant/index.html"))).isTrue();

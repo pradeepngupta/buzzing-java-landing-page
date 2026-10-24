@@ -12,10 +12,15 @@ import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Condition;
+import org.springframework.context.annotation.ConditionContext;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Profile;
+import org.springframework.core.type.AnnotatedTypeMetadata;
 
 @Configuration
 @Profile("!test & !export")
+@Conditional(GoogleSheetsConfig.CredentialsConfiguredCondition.class)
 public class GoogleSheetsConfig {
     private static final String SHEETS_SCOPE = "https://www.googleapis.com/auth/spreadsheets";
     private static final int HTTP_TIMEOUT_MILLIS = 10_000;
@@ -59,5 +64,17 @@ public class GoogleSheetsConfig {
                         requestInitializer)
                 .setApplicationName("Buzzing Java")
                 .build();
+    }
+
+    static class CredentialsConfiguredCondition implements Condition {
+        @Override
+        public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
+            return hasValue(context.getEnvironment().getProperty("GOOGLE_APPLICATION_CREDENTIALS"))
+                    || hasValue(context.getEnvironment().getProperty("GOOGLE_SERVICE_ACCOUNT_KEY_JSON"));
+        }
+
+        private static boolean hasValue(String value) {
+            return value != null && !value.isBlank();
+        }
     }
 }

@@ -42,7 +42,7 @@ public class StaticSiteExporter implements CommandLineRunner {
         model.addAttribute("previewDescription", "A two-page preview from <em>Buzzing Java</em>. Turn through the opening pages of the chapter.");
         model.addAttribute("previewRobots", "index, follow");
         model.addAttribute("previewSeoTitle", "Buzzing Java: Free Sample Chapter on Why Java Endures");
-        model.addAttribute("previewSeoDescription", "Read the free sample chapter of Buzzing Java: why Java's 11 buzzwords are engineering contracts that make software last. Launching December 7, 2026.");
+        model.addAttribute("previewSeoDescription", "Read the free sample chapter of Buzzing Java: why Java's 11 buzzwords are engineering contracts that make software last. Coming Soon.");
         model.addAttribute("previewCanonicalUrl", "https://buzzingjava.com/book-preview/");
         Files.createDirectories(output.resolve("book-preview"));
         Files.writeString(output.resolve("book-preview/index.html"), process("book-preview", model));

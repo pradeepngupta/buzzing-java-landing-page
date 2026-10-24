@@ -18,11 +18,17 @@ public final class PageModel {
     }
 
     private static String bookJson(SiteProperties site) {
-        return writeJson(Map.of("@context", "https://schema.org", "@type", "Book",
-                "name", site.book().title(), "alternateName", site.book().subtitle(),
-                "description", site.book().description(), "datePublished", site.book().launchDateIso(),
-                "author", Map.of("@type", "Person", "name", site.book().author()),
-                "inLanguage", site.book().language(), "genre", site.book().genre()));
+        var book = new java.util.HashMap<String, Object>();
+        book.put("@context", "https://schema.org");
+        book.put("@type", "Book");
+        book.put("name", site.book().title());
+        book.put("alternateName", site.book().subtitle());
+        book.put("description", site.book().description());
+        if (!site.book().launchDateIso().isBlank()) book.put("datePublished", site.book().launchDateIso());
+        book.put("author", Map.of("@type", "Person", "name", site.book().author()));
+        book.put("inLanguage", site.book().language());
+        book.put("genre", site.book().genre());
+        return writeJson(book);
     }
 
     private static String eventJson(SiteProperties site) {

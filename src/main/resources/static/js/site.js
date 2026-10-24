@@ -77,21 +77,24 @@
     showView(0);
   }
 
-  const countdown = document.querySelector('.countdown');
+  const countdown = document.querySelector('.countdown[data-launch-date]');
   if (countdown) {
-    const fallbackLaunchDate = '2026-12-07T00:00:00+05:30';
     const parsedLaunchDate = Date.parse(countdown.dataset.launchDate || '');
-    const target = Number.isFinite(parsedLaunchDate) ? parsedLaunchDate : Date.parse(fallbackLaunchDate);
-    const units = ['days', 'hours', 'minutes', 'seconds'];
-    let timer;
-    const update = () => {
-      const remaining = Number.isFinite(target) ? Math.max(0, target - Date.now()) : 0;
-      const values = [Math.floor(remaining / 86400000), Math.floor(remaining / 3600000) % 24, Math.floor(remaining / 60000) % 60, Math.floor(remaining / 1000) % 60];
-      units.forEach((unit, index) => { countdown.querySelector(`[data-unit="${unit}"]`).textContent = String(values[index]).padStart(2, '0'); });
-      if (remaining === 0) { countdown.querySelector('.countdown-grid').hidden = true; countdown.querySelector('[data-launch-state]').hidden = false; clearInterval(timer); }
-    };
-    update();
-    timer = setInterval(update, 1000);
+    if (!Number.isFinite(parsedLaunchDate)) {
+      countdown.hidden = true;
+    } else {
+      const target = parsedLaunchDate;
+      const units = ['days', 'hours', 'minutes', 'seconds'];
+      let timer;
+      const update = () => {
+        const remaining = Math.max(0, target - Date.now());
+        const values = [Math.floor(remaining / 86400000), Math.floor(remaining / 3600000) % 24, Math.floor(remaining / 60000) % 60, Math.floor(remaining / 1000) % 60];
+        units.forEach((unit, index) => { countdown.querySelector(`[data-unit="${unit}"]`).textContent = String(values[index]).padStart(2, '0'); });
+        if (remaining === 0) { countdown.querySelector('.countdown-grid').hidden = true; countdown.querySelector('[data-launch-state]').hidden = false; clearInterval(timer); }
+      };
+      update();
+      timer = setInterval(update, 1000);
+    }
   }
 
   fetch(apiUrl('/api/waitlist/count'))

@@ -6,11 +6,13 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 @Service
 @Profile("!test & !export")
+@ConditionalOnBean(Sheets.class)
 public class GoogleSheetsService {
     private final Sheets sheets;
     private final String spreadsheetId;

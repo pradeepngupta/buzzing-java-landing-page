@@ -47,9 +47,9 @@ class LandingPageApplicationTests {
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("Appendix D: Upgrade Strategy Without Panic")))
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("Java Since 1.3 → 25")))
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("FAQPage")))
-                .andExpect(content().string(org.hamcrest.Matchers.containsString("\"@type\":\"Place\"")))
-                .andExpect(content().string(org.hamcrest.Matchers.containsString("\"name\":\"Bengaluru, India\"")))
-                .andExpect(content().string(org.hamcrest.Matchers.containsString("Launch event: <span class=\"launch-location\">Bengaluru, India</span>")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("Coming Soon")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("countdown-label\">Coming Soon</p>")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("launch-state\">Coming Soon. Join the waitlist for updates</p>")))
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("Be there when the story starts buzzing.")));
     }
 
@@ -60,7 +60,7 @@ class LandingPageApplicationTests {
             .andExpect(content().string(org.hamcrest.Matchers.containsString("name=\"robots\" content=\"index, follow\"")))
             .andExpect(content().string(org.hamcrest.Matchers.containsString("rel=\"canonical\" href=\"https://buzzingjava.com/book-preview/\"")))
             .andExpect(content().string(org.hamcrest.Matchers.containsString("Buzzing Java: Free Sample Chapter on Why Java Endures")))
-                .andExpect(content().string(org.hamcrest.Matchers.containsString("Read the free sample chapter of Buzzing Java: why Java&#39;s 11 buzzwords are engineering contracts that make software last. Launching December 7, 2026.")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("Read the free sample chapter of Buzzing Java: why Java&#39;s 11 buzzwords are engineering contracts that make software last. Coming Soon.")))
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("Java’s Enduring Buzz")))
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("data-book-reader")))
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("data-reader-next")))
@@ -121,12 +121,13 @@ class LandingPageApplicationTests {
 
     @Test
     void loadsConfigurationAndCounterRule() {
-        assertThat(site.book().launchDateIso()).isEqualTo("2026-12-07T00:00:00+05:30");
+        assertThat(site.book().launchDate()).isEqualTo("Postponed — new date TBD");
+        assertThat(site.book().launchDateIso()).isEmpty();
         assertThat(site.cta().mode()).isEqualTo("waitlist");
         assertThat(site.freebie().enabled()).isFalse();
         assertThat(site.faq()).hasSize(8);
-        assertThat(site.launchEvent().enabled()).isTrue();
-        assertThat(site.launchEvent().location()).isEqualTo("Bengaluru, India");
+        assertThat(site.launchEvent().enabled()).isFalse();
+        assertThat(site.launchEvent().startDate()).isEmpty();
     }
 
         @Test

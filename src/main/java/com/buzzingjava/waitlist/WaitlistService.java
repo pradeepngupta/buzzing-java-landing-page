@@ -31,6 +31,7 @@ public class WaitlistService {
     @PostConstruct
     void loadAcceptedEmails() {
         if (googleSheetsService.isEmpty()) {
+            LOGGER.warn("Google Sheets credentials are not configured; waitlist entries will not be persisted.");
             return;
         }
 
