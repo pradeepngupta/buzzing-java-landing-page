@@ -34,6 +34,16 @@ jobs:
       - name: Verify with Maven
         run: mvn --batch-mode --update-snapshots verify
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install asset minifiers
+        run: |
+          npm install --prefix "$RUNNER_TEMP/asset-minifiers" --no-save --no-package-lock \
+            terser@5.43.1 clean-css@5.3.3
+
       - name: Export static site
         env:
           WAITLIST_API_BASE: https://api.buzzingjava.com
@@ -41,6 +51,23 @@ jobs:
           java -jar target/buzzing-java-landing-page-0.1.0-SNAPSHOT.jar
           --spring.profiles.active=export
           --spring.main.web-application-type=none
+
+      - name: Minify production assets
+        run: |
+          export MINIFIER_DIR="$RUNNER_TEMP/asset-minifiers"
+          "$MINIFIER_DIR/node_modules/.bin/terser" dist/js/site.js \
+            --compress --mangle --output "$MINIFIER_DIR/site.js"
+          mv "$MINIFIER_DIR/site.js" dist/js/site.js
+          node -e '
+            const fs = require("node:fs");
+            const CleanCSS = require(process.env.MINIFIER_DIR + "/node_modules/clean-css");
+            const stylesheet = "dist/css/site.css";
+            const result = new CleanCSS({ level: 2 }).minify(fs.readFileSync(stylesheet, "utf8"));
+            if (result.errors.length > 0) {
+              throw new Error(`clean-css failed: ${result.errors.join("; ")}`);
+            }
+            fs.writeFileSync(stylesheet, result.styles);
+          '
 
       - name: Upload site artifact
         uses: actions/upload-pages-artifact@v5

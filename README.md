@@ -31,7 +31,7 @@ The standalone site is written to `dist/` with `index.html`, `css/`, `js/`, `ima
 
 ## CI/CD
 
-GitHub Actions runs `mvn verify` for pushes and pull requests. Pushes to `main` or `master` also export the standalone site and deploy `dist/` to GitHub Pages, then trigger a Spring Boot deployment on Render.
+GitHub Actions runs `mvn verify` for pushes and pull requests. It exports the standalone site to `dist/`, installs pinned Terser and clean-css versions in the runner's temporary directory, and minifies the exported `js/site.js` and `css/site.css` before uploading it. No Node.js dependencies or minification scripts are added to the project. The source files in `src/main/resources/static/` remain unchanged, and the deployed asset URLs remain the same. Pushes to `main` or `master` deploy `dist/` to GitHub Pages, then trigger a Spring Boot deployment on Render.
 
 To enable the deployments:
 
