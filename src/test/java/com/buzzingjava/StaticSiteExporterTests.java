@@ -33,6 +33,7 @@ class StaticSiteExporterTests {
         assertThat(Files.exists(Path.of("dist/js/site.js"))).isTrue();
         assertThat(Files.exists(Path.of("dist/robots.txt"))).isTrue();
         assertThat(Files.exists(Path.of("dist/sitemap.xml"))).isTrue();
+        assertThat(Files.exists(Path.of("dist/llms.txt"))).isTrue();
         assertThat(Files.exists(Path.of("dist/images/og-image.jpg"))).isTrue();
         assertThat(Files.exists(Path.of("dist/images/author-photo-192.webp"))).isTrue();
         assertThat(Files.exists(Path.of("dist/images/book-cover-hero.webp"))).isTrue();
@@ -42,6 +43,11 @@ class StaticSiteExporterTests {
             .isEqualTo("mfwd7h3z8tbd69h3nzcnugkqk2hqq7av");
         assertThat(Files.readString(Path.of("dist/robots.txt")))
             .contains("User-agent: AhrefsBot", "Allow: /");
+        assertThat(Files.readString(Path.of("dist/llms.txt")))
+            .contains("# Buzzing Java", "https://buzzingjava.com/",
+                "https://buzzingjava.com/book-preview/",
+                "https://buzzingjava.com/privacypolicy/",
+                "https://buzzingjava.com/termsofservice/");
         String homepage = Files.readString(Path.of("dist/index.html"));
         assertThat(homepage)
             .contains("Buzzing Java", "FAQPage", "css/site.css", "js/site.js",

@@ -27,7 +27,7 @@ mvn package
 java -jar target/buzzing-java-landing-page-0.1.0-SNAPSHOT.jar --spring.profiles.active=export --spring.main.web-application-type=none
 ```
 
-The standalone site is written to `dist/` with `index.html`, `css/`, `js/`, `images/`, and `fonts/`. It can be opened from a static host without Spring Boot. The exporter renders the same Thymeleaf template and copies classpath assets.
+The standalone site is written to `dist/` with `index.html`, `css/`, `js/`, `images/`, `fonts/`, and root-level SEO files including `robots.txt`, `sitemap.xml`, and `llms.txt`. It can be opened from a static host without Spring Boot. The exporter renders the same Thymeleaf template and copies classpath assets.
 
 ## CI/CD
 

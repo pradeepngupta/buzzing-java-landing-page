@@ -88,6 +88,7 @@ public class StaticSiteExporter implements CommandLineRunner {
         copyResource("static/mfwd7h3z8tbd69h3nzcnugkqk2hqq7av.txt", output.resolve("mfwd7h3z8tbd69h3nzcnugkqk2hqq7av.txt"));
         copyResource("static/robots.txt", output.resolve("robots.txt"));
         copyResource("static/sitemap.xml", output.resolve("sitemap.xml"));
+        copyResource("static/llms.txt", output.resolve("llms.txt"));
 
         Files.createDirectories(output.resolve("fonts"));
     }

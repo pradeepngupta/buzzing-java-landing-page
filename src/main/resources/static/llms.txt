@@ -1,0 +1,74 @@
+# Buzzing Java
+
+> Buzzing Java explores Java's design principles, runtime contracts, software reliability, and the engineering practices that help developers build maintainable systems.
+
+Buzzing Java is a technical content and book project focused on Java engineering, software design, and building reliable software in an evolving, AI-assisted development landscape.
+
+## Main Pages
+
+- [Homepage](https://buzzingjava.com/): Main website and overview of Buzzing Java.
+- [Free Sample Chapter](https://buzzingjava.com/book-preview/): Read a sample chapter from the book *Buzzing Java*.
+- [Privacy Policy](https://buzzingjava.com/privacypolicy/): Privacy information for website visitors.
+- [Terms of Service](https://buzzingjava.com/termsofservice/): Website terms and conditions.
+
+## Book
+
+- *Buzzing Java: The Hidden Reason Java Remains the Foundation of Trusted Systems in the Age of AI* explores Java's lasting engineering principles and their relevance to trustworthy production systems.
+- The website currently lists the launch date as postponed, with a new date to be announced.
+- [Buzzing Java — Sample Chapter](https://buzzingjava.com/book-preview/): Read "Java's Enduring Buzz," the opening sample chapter.
+
+### Book outline
+
+The website describes the book as eleven reclaimed buzzwords, organized into three parts:
+
+1. **Part 1 — The Original Promises**
+   - Java's Enduring Buzz
+2. **Part 2 — The Eleven Buzzwords, Reclaimed**
+   - Simple Is Hard
+   - Objects and Responsibility
+   - Write Once, Run Anywhere
+   - Security by Default
+   - Failure Is the Baseline
+   - Concurrency Is Coordination
+   - The Myth of Interpreted vs. Compiled
+   - Performance Is a Moving Target
+   - Distributed Systems by Default
+   - Change Is the Only Constant
+3. **Part 3 — The Next Era**
+   - Thinking With Java in the Age of AI
+   - Java's Timeless Core
+
+The listed appendices are:
+
+- Appendix A: Major Inflection Points in Java's Evolution
+- Appendix B: The Buzzwords as a Decision Framework
+- Appendix C: Production Readiness Checklist for Java Systems
+- Appendix D: Upgrade Strategy Without Panic
+
+## Author
+
+**Pradeep Gupta** has more than 20 years of experience building trusted, high-stakes Java systems in global custody and securities services. The website notes experience with Java since version 1.3 and JVM-based systems processing more than 40 million events per day. He writes about durable software at Beyond the Stack Now.
+
+- [LinkedIn](https://linkedin.com/in/pradgupt)
+- [GitHub](https://github.com/pradeepngupta)
+- [X](https://x.com/pradeepxgupta)
+- [Beyond the Stack Now on Substack](https://beyondthestacknow.substack.com)
+
+## Content Topics
+
+Buzzing Java covers topics including:
+
+- Java language features and runtime behavior.
+- Software design principles and engineering contracts.
+- JVM performance, memory management, and garbage collection.
+- Concurrency, asynchronous programming, and reliable systems.
+- AI-assisted software development and the continued importance of sound engineering practices.
+
+## Optional Resources
+
+- [XML Sitemap](https://buzzingjava.com/sitemap.xml): Discoverable website URLs.
+- [Robots.txt](https://buzzingjava.com/robots.txt): Crawling guidance for automated agents.
+
+## Usage Guidance
+
+Use the linked pages as the primary sources for information about Buzzing Java and its published content. Distinguish published material from upcoming plans, and do not infer claims that are not supported by the website.
