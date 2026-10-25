@@ -50,6 +50,7 @@ All page content is in `src/main/resources/application.yml`, bound to the typed 
 - The waitlist counter is loaded from the Google Sheet through the cached waitlist count endpoint.
 - Set `freebie.enabled` to true and provide its configured title, description, and quantity to render the optional first-X section. It is disabled by default because the freebie is not decided yet.
 - FAQ visible text and FAQPage JSON-LD are generated from the same `faq` list.
+- The homepage includes one Organization JSON-LD entity with the bird brand mark in `assets/web-app-manifest-512x512.png`. `buzzing-java.organization.same-as` is intentionally empty until official Buzzing Java profile URLs are confirmed; add only profiles owned by the brand, not the author's personal accounts.
 - Launch event schema is controlled by `launch-event.enabled`; unknown location data is intentionally omitted.
 - Local Spring Boot pages use the same-origin API by default. The static export calls the API custom domain when `WAITLIST_API_BASE` is set (the GitHub Actions workflow sets it to `https://api.buzzingjava.com`; Render hosts the service behind that domain).
 - Configure Render's `WAITLIST_ALLOWED_ORIGINS` environment variable with a comma-separated list of allowed site origins. The default allows `https://pradeepngupta.github.io`, `https://buzzingjava.com`, and `https://www.buzzingjava.com`.

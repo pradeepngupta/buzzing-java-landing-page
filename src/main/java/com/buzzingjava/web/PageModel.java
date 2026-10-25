@@ -3,18 +3,37 @@ package com.buzzingjava.web;
 import com.buzzingjava.config.SiteProperties;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.HashMap;
 import java.util.Map;
 import org.springframework.ui.Model;
 
 public final class PageModel {
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+    private static final String ORGANIZATION_ID = "https://buzzingjava.com/#organization";
+    private static final String ORGANIZATION_LOGO = "https://buzzingjava.com/assets/web-app-manifest-512x512.png";
+
     private PageModel() {}
 
     public static void addTo(Model model, SiteProperties site) {
         model.addAttribute("site", site);
         model.addAttribute("assetBasePath", site.seo().basePath());
+        model.addAttribute("organizationJson", organizationJson(site));
         model.addAttribute("bookJson", bookJson(site));
         model.addAttribute("eventJson", eventJson(site));
         model.addAttribute("faqJson", faqJson(site));
+    }
+
+    private static String organizationJson(SiteProperties site) {
+        var logo = Map.of("@type", "ImageObject", "url", ORGANIZATION_LOGO);
+        var organization = new HashMap<String, Object>();
+        organization.put("@context", "https://schema.org");
+        organization.put("@type", "Organization");
+        organization.put("@id", ORGANIZATION_ID);
+        organization.put("name", "Buzzing Java");
+        organization.put("url", "https://buzzingjava.com/");
+        organization.put("logo", logo);
+        organization.put("sameAs", site.organization().sameAs());
+        return writeJson(organization);
     }
 
     private static String bookJson(SiteProperties site) {
@@ -29,6 +48,19 @@ public final class PageModel {
         book.put("inLanguage", site.book().language());
         book.put("genre", site.book().genre());
         return writeJson(book);
+    }
+
+    public static String articleJson(SiteProperties site, String canonicalUrl, String headline, String description) {
+        var article = new HashMap<String, Object>();
+        article.put("@context", "https://schema.org");
+        article.put("@type", "Article");
+        article.put("@id", canonicalUrl + "#article");
+        article.put("mainEntityOfPage", canonicalUrl);
+        article.put("headline", headline);
+        article.put("description", description);
+        article.put("image", "https://buzzingjava.com/images/book-cover-hero.webp");
+        article.put("author", Map.of("@type", "Person", "name", site.book().author()));
+        return writeJson(article);
     }
 
     private static String eventJson(SiteProperties site) {
@@ -56,7 +88,10 @@ public final class PageModel {
 
     private static String writeJson(Object value) {
         try {
-            return new ObjectMapper().writeValueAsString(value);
+            return OBJECT_MAPPER.writeValueAsString(value)
+                    .replace("<", "\\u003c")
+                    .replace(">", "\\u003e")
+                    .replace("&", "\\u0026");
         } catch (JsonProcessingException exception) {
             throw new IllegalStateException("Unable to create structured data", exception);
         }

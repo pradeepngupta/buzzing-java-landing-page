@@ -25,14 +25,19 @@ public class LandingPageController {
     @GetMapping({"/book-preview", "/book-preview/"})
     public String bookPreview(Model model) throws IOException {
         PageModel.addTo(model, properties);
+        String headline = "Java’s Enduring Buzz";
+        String description = "Read the free sample chapter of Buzzing Java: why Java's 11 buzzwords are engineering contracts that make software last. Coming Soon.";
+        String canonicalUrl = "https://buzzingjava.com/book-preview/";
         model.addAttribute("previewPages", bookPreviewContent.pages());
         model.addAttribute("previewLabel", "SAMPLE CHAPTER / 01");
-        model.addAttribute("previewTitle", "Java’s Enduring Buzz");
+        model.addAttribute("previewTitle", headline);
         model.addAttribute("previewDescription", "A two-page preview from <em>Buzzing Java</em>. Turn through the opening pages of the chapter.");
         model.addAttribute("previewRobots", "index, follow");
         model.addAttribute("previewSeoTitle", "Buzzing Java: Free Sample Chapter on Why Java Endures");
-        model.addAttribute("previewSeoDescription", "Read the free sample chapter of Buzzing Java: why Java's 11 buzzwords are engineering contracts that make software last. Coming Soon.");
-        model.addAttribute("previewCanonicalUrl", "https://buzzingjava.com/book-preview/");
+        model.addAttribute("previewSeoDescription", description);
+        model.addAttribute("previewCanonicalUrl", canonicalUrl);
+        model.addAttribute("previewOgUrl", canonicalUrl);
+        model.addAttribute("articleJson", PageModel.articleJson(properties, canonicalUrl, headline, description));
         return "book-preview";
     }
 
@@ -44,6 +49,7 @@ public class LandingPageController {
         model.addAttribute("previewTitle", "Change Is the Only Constant");
         model.addAttribute("previewDescription", "A full sample chapter from <em>Buzzing Java</em>. Turn through the pages of the chapter.");
         model.addAttribute("previewRobots", "noindex, nofollow");
+        model.addAttribute("previewOgUrl", "https://buzzingjava.com/book-preview/change-is-the-only-constant");
         return "book-preview";
     }
 

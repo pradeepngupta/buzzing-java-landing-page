@@ -11,8 +11,12 @@
 
     <meta property="og:title" th:content="${previewSeoTitle ?: previewTitle + ' | Buzzing Java'}">
     <meta property="og:description" th:content="${previewSeoDescription ?: 'Read a sample chapter from Buzzing Java in an interactive book preview.'}">
+    <meta property="og:url" th:content="${previewOgUrl}">
     <meta property="og:image" th:content="${site.seo.ogImage}">
     <meta property="og:image:alt" th:content="${site.seo.ogImageAlt}">
+    <meta property="og:image:width" th:content="${site.seo.ogImageWidth}">
+    <meta property="og:image:height" th:content="${site.seo.ogImageHeight}">
+    <meta property="og:image:type" th:content="${site.seo.ogImageType}">
     <meta property="og:type" content="article">
     <meta property="og:site_name" th:content="${site.seo.ogSiteName}">
     <meta property="og:locale" content="en_US">
@@ -21,6 +25,7 @@
     <meta name="twitter:title" th:content="${previewSeoTitle ?: previewTitle + ' | Buzzing Java'}">
     <meta name="twitter:description" th:content="${previewSeoDescription ?: 'Read a sample chapter from Buzzing Java in an interactive book preview.'}">
     <meta name="twitter:image" th:content="${site.seo.ogImage}">
+    <meta name="twitter:image:alt" th:content="${site.seo.ogImageAlt}">
     <meta name="twitter:site" th:content="${site.seo.xName}">
     <meta name="author" th:content="${site.author.name}">
 
@@ -31,12 +36,14 @@
     <meta name="apple-mobile-web-app-title" content="buzzingjava.com">
     <link rel="manifest" href="assets/site.webmanifest">
     <link rel="stylesheet" href="css/site.css">
+    <script type="application/ld+json" th:if="${articleJson != null and !#strings.isEmpty(articleJson)}" th:utext="${articleJson}"></script>
+    <script src="https://analytics.ahrefs.com/analytics.js" data-key="1+NMOO+HtVnXQVzOKPPS5g" async></script>
 </head>
 <body>
 <header class="masthead"><a class="wordmark" href="./" aria-label="Buzzing Java home"><span>BUZZING</span> JAVA</a><span class="edition">A book about durable software</span></header>
 <main class="preview-page wrap" aria-labelledby="preview-title">
     <div class="preview-intro">
-        <a class="button preview-back" th:href="${assetBasePath ?: '/'}"><span aria-hidden="true">←</span> Back to Buzzing Java</a>
+        <a class="button preview-back" th:href="${(assetBasePath ?: '/') + '#waitlist'}"><span aria-hidden="true">←</span> Back to Buzzing Java</a>
         <p class="section-index" th:text="${previewLabel}">SAMPLE CHAPTER / 01</p>
         <h1 id="preview-title" th:text="${previewTitle}">Java’s Enduring Buzz</h1>
         <p th:utext="${previewDescription}">A two-page preview from <em>Buzzing Java</em>. Turn through the opening pages of the chapter.</p>

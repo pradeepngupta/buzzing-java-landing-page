@@ -13,6 +13,7 @@ public record SiteProperties(
         List<Teaser> teasers,
         List<Perk> perks,
         Seo seo,
+        Organization organization,
         List<Faq> faq,
         LaunchEvent launchEvent,
         String apiBase,
@@ -35,7 +36,9 @@ public record SiteProperties(
 
     public record Perk(String title, String description) {}
 
-    public record Seo(String title, String description, String canonicalUrl, String ogUrl, String basePath, String ogImage, String ogSiteName, String ogImageType, String ogImageAlt, String xName) {}
+    public record Seo(String title, String description, String canonicalUrl, String ogUrl, String basePath, String ogImage, String ogSiteName, String ogImageType, String ogImageAlt, int ogImageWidth, int ogImageHeight, String xName) {}
+
+    public record Organization(List<String> sameAs) {}
 
     public record Faq(String question, String answer) {}
 

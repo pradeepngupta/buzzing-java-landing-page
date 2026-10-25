@@ -11,7 +11,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.buzzingjava.config.SiteProperties;
 import com.buzzingjava.waitlist.GoogleSheetsService;
 import com.buzzingjava.waitlist.WaitlistSheetRow;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -54,6 +59,38 @@ class LandingPageApplicationTests {
     }
 
     @Test
+    void rendersOneValidOrganizationEntityOnHomepage() throws Exception {
+        String html = mockMvc.perform(get("/"))
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+        List<JsonNode> organizations = structuredData(html).stream()
+                .filter(node -> node.path("@type").asText().equals("Organization"))
+                .toList();
+
+        assertThat(organizations).hasSize(1);
+        JsonNode organization = organizations.get(0);
+        assertThat(organization.path("@context").asText()).isEqualTo("https://schema.org");
+        assertThat(organization.path("@id").asText()).isEqualTo("https://buzzingjava.com/#organization");
+        assertThat(organization.path("name").asText()).isEqualTo("Buzzing Java");
+        assertThat(organization.path("url").asText()).isEqualTo("https://buzzingjava.com/");
+        assertThat(organization.path("logo").path("@type").asText()).isEqualTo("ImageObject");
+        assertThat(organization.path("logo").path("url").asText())
+                .isEqualTo("https://buzzingjava.com/assets/web-app-manifest-512x512.png");
+        assertThat(organization.path("sameAs").isArray()).isTrue();
+        assertThat(organization.path("sameAs")).hasSize(0);
+        assertThat(html)
+                .contains("<link rel=\"canonical\" href=\"https://buzzingjava.com/\" />",
+                        "<meta property=\"og:title\" content=\"" + site.seo().title() + "\" />",
+                        "<meta property=\"og:url\" content=\"https://buzzingjava.com/\" />",
+                        "<meta name=\"twitter:title\" content=\"" + site.seo().title() + "\">",
+                        "<meta name=\"twitter:card\" content=\"summary_large_image\">",
+                        "<meta name=\"twitter:site\" content=\"@pradeepxgupta\" />");
+        assertThat(structuredData(html)).noneMatch(node -> node.path("@type").asText().equals("Article"));
+    }
+
+    @Test
     void rendersBookPreviewReader() throws Exception {
         mockMvc.perform(get("/book-preview"))
                 .andExpect(status().isOk())
@@ -64,7 +101,47 @@ class LandingPageApplicationTests {
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("Java’s Enduring Buzz")))
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("data-book-reader")))
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("data-reader-next")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("href=\"/#waitlist\"")))
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("Spread 1 of 6")));
+    }
+
+    @Test
+    void keepsBookPreviewPageSpecificMetadataWithoutOrganizationEntity() throws Exception {
+        String html = mockMvc.perform(get("/book-preview/"))
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        assertThat(html)
+                .contains("<title>Buzzing Java: Free Sample Chapter on Why Java Endures</title>",
+                        "<link rel=\"canonical\" href=\"https://buzzingjava.com/book-preview/\">",
+                        "<meta property=\"og:title\" content=\"Buzzing Java: Free Sample Chapter on Why Java Endures\">",
+                        "<meta property=\"og:description\" content=\"Read the free sample chapter of Buzzing Java: why Java&#39;s 11 buzzwords are engineering contracts that make software last. Coming Soon.\">",
+                        "<meta property=\"og:url\" content=\"https://buzzingjava.com/book-preview/\">",
+                        "<meta property=\"og:type\" content=\"article\">",
+                        "<meta name=\"twitter:title\" content=\"Buzzing Java: Free Sample Chapter on Why Java Endures\">",
+                        "<meta name=\"twitter:description\" content=\"Read the free sample chapter of Buzzing Java: why Java&#39;s 11 buzzwords are engineering contracts that make software last. Coming Soon.\">",
+                        "<meta name=\"twitter:card\" content=\"summary_large_image\">");
+        List<JsonNode> entities = structuredData(html);
+        List<JsonNode> articles = entities.stream()
+                .filter(node -> node.path("@type").asText().equals("Article"))
+                .toList();
+        assertThat(articles).hasSize(1);
+        JsonNode article = articles.get(0);
+        assertThat(article.path("@context").asText()).isEqualTo("https://schema.org");
+        assertThat(article.path("@id").asText()).isEqualTo("https://buzzingjava.com/book-preview/#article");
+        assertThat(article.path("mainEntityOfPage").asText()).isEqualTo("https://buzzingjava.com/book-preview/");
+        assertThat(article.path("headline").asText()).isEqualTo("Java’s Enduring Buzz");
+        assertThat(article.path("description").asText())
+                .isEqualTo("Read the free sample chapter of Buzzing Java: why Java's 11 buzzwords are engineering contracts that make software last. Coming Soon.");
+        assertThat(article.path("image").asText()).isEqualTo("https://buzzingjava.com/images/book-cover-hero.webp");
+        assertThat(article.path("author").path("@type").asText()).isEqualTo("Person");
+        assertThat(article.path("author").path("name").asText()).isEqualTo("Pradeep Gupta");
+        assertThat(article.has("publisher")).isFalse();
+        assertThat(article.has("datePublished")).isFalse();
+        assertThat(article.has("dateModified")).isFalse();
+        assertThat(entities).noneMatch(node -> node.path("@type").asText().equals("Organization"));
     }
 
     @Test
@@ -108,7 +185,8 @@ class LandingPageApplicationTests {
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("pradeepngupta@gmail.com")));
             mockMvc.perform(get("/privacypolicy/"))
                 .andExpect(status().isOk())
-                .andExpect(content().string(org.hamcrest.Matchers.containsString("Privacy Policy")));
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("Privacy Policy")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("href=\"./#waitlist\"")));
             mockMvc.perform(get("/terms-of-service"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("Terms of Service")))
@@ -116,7 +194,8 @@ class LandingPageApplicationTests {
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("unsubscribe")));
             mockMvc.perform(get("/termsofservice/"))
                 .andExpect(status().isOk())
-                .andExpect(content().string(org.hamcrest.Matchers.containsString("Terms of Service")));
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("Terms of Service")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("href=\"./#waitlist\"")));
             }
 
     @Test
@@ -128,6 +207,18 @@ class LandingPageApplicationTests {
         assertThat(site.faq()).hasSize(8);
         assertThat(site.launchEvent().enabled()).isFalse();
         assertThat(site.launchEvent().startDate()).isEmpty();
+    }
+
+    private List<JsonNode> structuredData(String html) throws Exception {
+        Matcher matcher = Pattern.compile(
+                "<script type=\"application/ld\\+json\">(.*?)</script>", Pattern.DOTALL)
+                .matcher(html);
+        List<JsonNode> entities = new ArrayList<>();
+        ObjectMapper mapper = new ObjectMapper();
+        while (matcher.find()) {
+            entities.add(mapper.readTree(matcher.group(1)));
+        }
+        return entities;
     }
 
         @Test

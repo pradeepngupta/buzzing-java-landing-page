@@ -95,9 +95,9 @@ buzzing-java:
       description: "Be first in line for thoughtful bonuses."
   seo:
     title: "Buzzing Java | Why Java Still Powers Trusted Systems"
-    description: "Java's runtime contracts are the check your AI-generated code still has to pass. Discover why three decades of design discipline outlast every code-generation trend. Join the Buzzing Java book launch waitlist."
-    canonical-url: "https://localhost:8080/"
-    og-url: "https://localhost:8080/"
+    description: "Discover why Java's proven design and runtime contracts matter for trusted software in the AI era. Join the Buzzing Java book launch waitlist for updates."
+    canonical-url: "https://buzzingjava.com/"
+    og-url: "https://buzzingjava.com/"
     base-path: "/"
     og-image: "https://localhost:8080/images/og-image.jpg"
     og-image-type: "image/jpeg"
@@ -106,6 +106,8 @@ buzzing-java:
     og-image-height: 630
     og-site-name: "Buzzing Java"
     x-name: "@pradeepxgupta"
+  organization:
+    same-as: []
   faq:
     - question: "What is Buzzing Java about?"
       answer: "Buzzing Java explains why Java remains important in trusted enterprise systems and what its longevity teaches us about real-world engineering in the AI era."

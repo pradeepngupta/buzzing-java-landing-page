@@ -59,7 +59,7 @@ public class BookPreviewContent {
         }
         Matcher heading = HEADING.matcher(trimmed);
         if (heading.matches()) {
-            int level = heading.group(1).length();
+            int level = heading.group(1).length() + 1;
             return "<h" + level + ">" + inline(heading.group(2)) + "</h" + level + ">";
         }
         if (trimmed.startsWith("· ") || trimmed.startsWith("- ")) {

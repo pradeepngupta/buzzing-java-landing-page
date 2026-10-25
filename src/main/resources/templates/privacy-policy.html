@@ -5,8 +5,26 @@
     <base th:href="${assetBasePath ?: '/'}">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Privacy Policy | Buzzing Java</title>
-    <meta name="description" content="Privacy Policy for the Buzzing Java waitlist.">
+    <meta name="description" content="Learn what information the Buzzing Java waitlist collects, how it is used and shared, how long it is retained, and how to request correction or deletion.">
+    <meta property="og:title" content="Privacy Policy | Buzzing Java">
+    <meta property="og:description" content="Learn what information the Buzzing Java waitlist collects, how it is used and shared, how long it is retained, and how to request correction or deletion.">
+    <meta property="og:url" content="https://buzzingjava.com/privacypolicy/">
+    <meta property="og:image" th:content="${site.seo.ogImage}">
+    <meta property="og:image:alt" th:content="${site.seo.ogImageAlt}">
+    <meta property="og:image:width" th:content="${site.seo.ogImageWidth}">
+    <meta property="og:image:height" th:content="${site.seo.ogImageHeight}">
+    <meta property="og:image:type" th:content="${site.seo.ogImageType}">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" th:content="${site.seo.ogSiteName}">
+    <meta property="og:locale" content="en_US">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Privacy Policy | Buzzing Java">
+    <meta name="twitter:description" content="Learn what information the Buzzing Java waitlist collects, how it is used and shared, how long it is retained, and how to request correction or deletion.">
+    <meta name="twitter:image" th:content="${site.seo.ogImage}">
+    <meta name="twitter:image:alt" th:content="${site.seo.ogImageAlt}">
+    <meta name="twitter:site" th:content="${site.seo.xName}">
     <link rel="stylesheet" href="css/site.css">
+    <script src="https://analytics.ahrefs.com/analytics.js" data-key="1+NMOO+HtVnXQVzOKPPS5g" async></script>
 </head>
 <body>
 <header class="masthead"><a class="wordmark" href="./" aria-label="Buzzing Java home"><span>BUZZING</span> JAVA</a><span class="edition">A book about durable software</span></header>
@@ -21,13 +39,13 @@
         <h2>Why we use it</h2>
         <p>We use this information to manage the waitlist, send waitlist updates and launch notifications, share relevant invitations or previews, and understand which topics are useful to readers. We use analytics to understand site activity in aggregate.</p>
         <h2>Service providers</h2>
-        <p>Depending on the workflow in use, your submitted information may be processed by Kit and Brevo for email delivery and subscriber management; Google Sheets for waitlist storage; Umami for website analytics; n8n for workflow automation; and Slack for internal notifications. We do not sell your personal information.</p>
+        <p>Depending on the workflow in use, your submitted information may be processed by Kit and Brevo for email delivery and subscriber management; Google Sheets for waitlist storage; Umami and Ahrefs for website analytics; n8n for workflow automation; and Slack for internal notifications. We do not sell your personal information.</p>
         <h2>Retention and deletion</h2>
         <p>We keep waitlist information only while it is needed for these launch and communication purposes. To ask us to delete your data, email <a href="mailto:pradeepngupta@gmail.com">pradeepngupta@gmail.com</a> with the email address you used to join the list and the subject “Delete my Buzzing Java data.” We will also pass the request through the relevant services used by the workflow.</p>
         <h2>Your choices</h2>
         <p>You may unsubscribe from email updates at any time using the unsubscribe link in the message or by emailing the address above. You may also ask us to correct your information.</p>
     </section>
-    <p><a class="button button-primary" href="./">Back to Buzzing Java</a></p>
+    <p><a class="button button-primary" href="./#waitlist">Back to Buzzing Java</a></p>
 </main>
 <footer class="footer wrap"><span class="wordmark"><span>BUZZING</span> JAVA</span><span>Coming Soon</span></footer>
 </body>
