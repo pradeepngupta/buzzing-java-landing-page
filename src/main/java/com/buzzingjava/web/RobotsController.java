@@ -12,6 +12,6 @@ public class RobotsController {
         if ("api.buzzingjava.com".equalsIgnoreCase(request.getServerName())) {
             return "User-agent: *\nDisallow: /\n";
         }
-        return "User-agent: *\nAllow: /\n\nSitemap: https://buzzingjava.com/sitemap.xml\n";
+        return "User-agent: AhrefsBot\nAllow: /\n\nUser-agent: *\nAllow: /\n\nSitemap: https://buzzingjava.com/sitemap.xml\n";
     }
 }

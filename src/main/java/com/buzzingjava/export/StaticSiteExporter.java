@@ -85,6 +85,7 @@ public class StaticSiteExporter implements CommandLineRunner {
         copyResource("static/assets/site.webmanifest", output.resolve("assets/site.webmanifest"));
         copyResource("static/assets/web-app-manifest-192x192.png", output.resolve("assets/web-app-manifest-192x192.png"));
         copyResource("static/assets/web-app-manifest-512x512.png", output.resolve("assets/web-app-manifest-512x512.png"));
+        copyResource("static/mfwd7h3z8tbd69h3nzcnugkqk2hqq7av.txt", output.resolve("mfwd7h3z8tbd69h3nzcnugkqk2hqq7av.txt"));
         copyResource("static/robots.txt", output.resolve("robots.txt"));
         copyResource("static/sitemap.xml", output.resolve("sitemap.xml"));
 

@@ -169,6 +169,7 @@ class LandingPageApplicationTests {
             void servesIndexingRulesForLandingAndApiHosts() throws Exception {
             mockMvc.perform(get("/robots.txt").header("Host", "buzzingjava.com"))
                 .andExpect(status().isOk())
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("User-agent: AhrefsBot\nAllow: /")))
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("Allow: /")))
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("https://buzzingjava.com/sitemap.xml")));
             mockMvc.perform(get("/robots.txt").header("Host", "api.buzzingjava.com"))
@@ -177,12 +178,19 @@ class LandingPageApplicationTests {
             }
 
             @Test
+            void servesAhrefsVerificationKeyAtRoot() throws Exception {
+            mockMvc.perform(get("/mfwd7h3z8tbd69h3nzcnugkqk2hqq7av.txt"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("mfwd7h3z8tbd69h3nzcnugkqk2hqq7av"));
+            }
+
+            @Test
             void rendersPrivacyAndTermsPages() throws Exception {
             mockMvc.perform(get("/privacy-policy"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("Privacy Policy")))
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("Kit and Brevo")))
-                .andExpect(content().string(org.hamcrest.Matchers.containsString("pradeepngupta@gmail.com")));
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("pradeep@buzzingjava.com")));
             mockMvc.perform(get("/privacypolicy/"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("Privacy Policy")))

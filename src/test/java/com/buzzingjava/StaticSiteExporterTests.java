@@ -38,6 +38,10 @@ class StaticSiteExporterTests {
         assertThat(Files.exists(Path.of("dist/images/book-cover-hero.webp"))).isTrue();
         assertThat(Files.exists(Path.of("dist/images/book-cover-hero-700.webp"))).isTrue();
         assertThat(Files.exists(Path.of("dist/assets/web-app-manifest-512x512.png"))).isTrue();
+        assertThat(Files.readString(Path.of("dist/mfwd7h3z8tbd69h3nzcnugkqk2hqq7av.txt")))
+            .isEqualTo("mfwd7h3z8tbd69h3nzcnugkqk2hqq7av");
+        assertThat(Files.readString(Path.of("dist/robots.txt")))
+            .contains("User-agent: AhrefsBot", "Allow: /");
         String homepage = Files.readString(Path.of("dist/index.html"));
         assertThat(homepage)
             .contains("Buzzing Java", "FAQPage", "css/site.css", "js/site.js",
