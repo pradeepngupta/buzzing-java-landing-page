@@ -82,7 +82,7 @@ class StaticSiteExporterTests {
                 ogImageAltTag,
                 "Learn what information the Buzzing Java waitlist collects, how it is used and shared, how long it is retained, and how to request correction or deletion.");
         assertThat(Files.readString(Path.of("dist/termsofservice/index.html")))
-            .contains("href=\"./#waitlist\"",
+            .contains("href=\"./#waitlist\"", "href=\"/privacypolicy/\">Privacy Policy</a>",
                 "<meta property=\"og:url\" content=\"https://buzzingjava.com/termsofservice/\">",
                 ogImageAltTag,
                 "Review the terms for the Buzzing Java website and waitlist, including email consent, early access, site content, and how terms may change before joining.");
